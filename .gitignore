@@ -1,0 +1,7 @@
+bin/
+out/
+*.swp
+*.swo
+docs/_site
+.idea
+build
