@@ -17,7 +17,7 @@ func SendEvent() {
 	for {
 		time.Sleep(duration)
 
-		events := make([]model.EventBaseInfo, 0)
+		events := make([]model.HoneypotEvent, 0)
 		perCnt := cc.Config().PerCount
 		if perCnt == 0 {
 			perCnt = gg.DefaultPerCount
@@ -25,22 +25,22 @@ func SendEvent() {
 		for i := 0; i < perCnt; i++ {
 			events = append(events, mockEventInfo())
 		}
-		req := model.EventRequest{
+		req := model.HoneypotEventRequest{
 			Events: events,
 		}
 
 		var resp model.RpcResponse
-		err = gg.EventRpcClient().Call("Event.RecvEvent", req, &resp)
+		err = gg.EventRpcClient().Call("HoneypotEvent.RecvEvent", req, &resp)
 		if err != nil {
-			log.Println("call Event.RecvEvent fail:", err)
+			log.Println("call HoneypotEvent.RecvEvent fail:", err)
 			continue
 		}
 		log.Println("send event success")
 	}
 }
 
-func mockEventInfo() model.EventBaseInfo {
-	return model.EventBaseInfo{
+func mockEventInfo() model.HoneypotEvent {
+	return model.HoneypotEvent{
 		Proto:      "tcp",
 		Honeypot:   uuid.New().String(),
 		Agent:      cc.Config().ID,

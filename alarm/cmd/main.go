@@ -7,8 +7,8 @@ import (
 
 func newRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "event",
-		Short: "event daemon",
+		Use:   "alarm",
+		Short: "alarm daemon",
 		Run: func(cmd *cobra.Command, args []string) {
 			err := initApp()
 			if err != nil {
