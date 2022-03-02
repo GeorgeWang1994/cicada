@@ -30,7 +30,7 @@ func SendEvent() {
 		}
 
 		var resp model.RpcResponse
-		err = gg.EventRpcClient().Call("HoneypotEvent.RecvEvent", req, &resp)
+		err = gg.EventRpcClient().Call("HoneypotEvent.ReceiveEvent", req, &resp)
 		if err != nil {
 			log.Println("call HoneypotEvent.RecvEvent fail:", err)
 			continue

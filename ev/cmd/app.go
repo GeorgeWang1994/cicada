@@ -4,6 +4,8 @@ import (
 	"cicada/ev/cc"
 	"cicada/ev/gg"
 	"cicada/ev/rpc"
+	"cicada/ev/sender"
+	"context"
 	"flag"
 )
 
@@ -14,10 +16,15 @@ func initApp() error {
 		return err
 	}
 
-	go rpc.Start()
+	ctx := context.Background()
+	rpc.Start(ctx)
 
 	if cc.Config().Clickhouse.Enable {
-		gg.InitClickhouseClient()
+		gg.InitClickhouseClient(ctx)
+	}
+
+	if cc.Config().Judge.Enabled {
+		sender.Start(ctx)
 	}
 
 	return nil

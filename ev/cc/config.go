@@ -22,20 +22,17 @@ type ClickhouseConfig struct {
 	ConnTimeout int    `json:"connTimeout"`
 }
 
-type ClusterNode struct {
-	Addrs []string `json:"addrs"`
-}
-
 type JudgeConfig struct {
-	Enabled     bool                    `json:"enabled"`
-	Batch       int                     `json:"batch"`
-	ConnTimeout int                     `json:"connTimeout"`
-	CallTimeout int                     `json:"callTimeout"`
-	MaxConns    int                     `json:"maxConns"`
-	MaxIdle     int                     `json:"maxIdle"`
-	Replicas    int                     `json:"replicas"`
-	Cluster     map[string]string       `json:"cluster"`
-	ClusterList map[string]*ClusterNode `json:"clusterList"`
+	Enabled      bool                    `json:"enabled"`
+	Batch        int                     `json:"batch"`
+	DialTimeout  int                     `json:"dialTimeout"`
+	IdleTimeout  int                     `json:"idleTimeout"`
+	ReadTimeout  int                     `json:"readTimeout"`
+	WriteTimeout int                     `json:"writeTimeout"`
+	InitCap      int                     `json:"initCap"`
+	MaxCap       int                     `json:"MaxCap"`
+	Replicas     int                     `json:"replicas"`
+	Cluster      map[string]string       `json:"cluster"`
 }
 
 type GlobalConfig struct {

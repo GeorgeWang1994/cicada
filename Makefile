@@ -25,5 +25,10 @@ docker:
 	tar -C out -zcf open-falcon-v$(VERSION).tar.gz .
 	@rm -rf out
 
+
+proto:
+
+
+
 clean:
 	@rm -rf ./bin

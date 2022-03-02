@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "cicada.base";
+package cicada.event;
+
+message EventRequest {
+  repeated HoneypotEvent events = 1;
+}
+
+message EventResponse {
+  string message = 1;
+}
+
+service Event {
+  rpc ReceiveEvent (EventRequest) returns (EventResponse);
+}

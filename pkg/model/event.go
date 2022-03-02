@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type HoneypotEvent struct {
 	ID         string    `json:"id"`
@@ -16,6 +19,10 @@ type HoneypotEvent struct {
 	DestPort   int       `json:"dest_port"`
 	EventTypes []string  `json:"event_types"`
 	RiskLevel  int       `json:"risk_level"`
+}
+
+func (p *HoneypotEvent) PK() string {
+	return fmt.Sprintf("%s-%s-%s", p.ID, p.Proto, p.Agent)
 }
 
 type HoneypotEventRequest struct {

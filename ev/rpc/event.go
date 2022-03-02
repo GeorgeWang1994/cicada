@@ -8,24 +8,24 @@ import (
 	"context"
 )
 
-type Event int
+type Event struct{}
 
 func (t *Event) Ping(req model.NullRpcRequest, resp *model.RpcResponse) error {
 	return nil
 }
 
-func (t *Event) Receive(context context.Context, args []*model.HoneypotEvent, reply *model.RpcResponse) error {
-
+// ReceiveEvent 接收来自探针的事件
+func (t *Event) ReceiveEvent(ctx context.Context, request *pb.Request) (*pb.Response, error) {
 	if cc.Config().Judge.Enabled {
 		queue.Push2JudgeSendQueue(args)
 	}
 
 	if cc.Config().Clickhouse.Enable {
-		err := db.AsyncBatchInsertHoneypotEvent(context, args, false)
+		err := db.AsyncBatchInsertHoneypotEvent(ctx, args, false)
 		if err != nil {
-			return err
+			return &pb.Response{}, nil
 		}
 	}
 
-	return nil
+	return &pb.Response{}, nil
 }

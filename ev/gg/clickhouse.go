@@ -15,7 +15,7 @@ var (
 )
 
 // InitClickhouseClient 初始化CK客户端
-func InitClickhouseClient() {
+func InitClickhouseClient(ctx context.Context) {
 	var err error
 	client, err := clickhouse.Open(&clickhouse.Options{
 		Addr: []string{cc.Config().Clickhouse.Addr},
@@ -31,14 +31,14 @@ func InitClickhouseClient() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	ctx := clickhouse.Context(context.Background(), clickhouse.WithSettings(clickhouse.Settings{
+	ckCtx := clickhouse.Context(ctx, clickhouse.WithSettings(clickhouse.Settings{
 		"max_block_size": 10,
 	}), clickhouse.WithProgress(func(p *clickhouse.Progress) {
 		fmt.Println("progress: ", p)
 	}), clickhouse.WithProfileInfo(func(p *clickhouse.ProfileInfo) {
 		fmt.Println("profile info: ", p)
 	}))
-	if err := client.Ping(ctx); err != nil {
+	if err := client.Ping(ckCtx); err != nil {
 		if exception, ok := err.(*clickhouse.Exception); ok {
 			log.Fatalf("Catch Clickhouse exception [%d] %s \n%s\n", exception.Code, exception.Message, exception.StackTrace)
 		}

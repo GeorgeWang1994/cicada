@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package cicada;
+
+// 蜜罐事件
+message HoneypotEvent {
+  string id = 1;
+  string proto = 2;
+  string honeypot = 3;
+  string agent = 4;
+  int32 start_time = 5;
+  int32 end_time = 6;
+  string src_ip = 7;
+  int32 src_port = 8;
+  string src_mac = 9;
+  string dest_ip = 10;
+  int32 dest_port = 11;
+  repeated string event_types = 12;
+  int32 risk_level = 13;
+}
+
+
+
