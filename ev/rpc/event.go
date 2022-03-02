@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"cicada/ev/cc"
+	"cicada/ev/sender/queue"
 	"cicada/ev/store/db"
 	"cicada/pkg/model"
 	"context"
@@ -16,7 +17,7 @@ func (t *Event) Ping(req model.NullRpcRequest, resp *model.RpcResponse) error {
 func (t *Event) Receive(context context.Context, args []*model.HoneypotEvent, reply *model.RpcResponse) error {
 
 	if cc.Config().Judge.Enabled {
-		//queue.Push2JudgeSendQueue(args)
+		queue.Push2JudgeSendQueue(args)
 	}
 
 	if cc.Config().Clickhouse.Enable {
