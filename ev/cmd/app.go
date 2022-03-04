@@ -19,6 +19,10 @@ func initApp() error {
 	ctx := context.Background()
 	rpc.Start(ctx)
 
+	if cc.Config().Kafka.Enabled {
+		gg.InitKafka()
+	}
+
 	if cc.Config().Clickhouse.Enable {
 		gg.InitClickhouseClient(ctx)
 	}

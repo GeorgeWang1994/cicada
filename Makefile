@@ -7,6 +7,7 @@ VERSION := $(shell cat VERSION)
 	GO111MODULE=on go build -ldflags "-X main.BinaryName=$@ -X main.GitCommit=`git rev-parse --short HEAD` -X main.Version=$(VERSION)" \
 		-o bin/$@/cicada-$@ ./$@/cmd ;
 
+.PHONY:
 docker:
 	@if [ -e out ] ; then rm -rf out; fi
 	@mkdir out
@@ -26,9 +27,18 @@ docker:
 	@rm -rf out
 
 
+.PHONY : proto
 proto:
-
-
+	@echo generate proto...;
+	@ for i in proto/*; \
+	do \
+		if [[ -d $$i ]]; then \
+			protoc --proto_path=$$i --go_out=$$i $$i/*.proto; \
+		else \
+			protoc --proto_path=. --go_out=. $$i; \
+		fi \
+	done
 
 clean:
+	@echo clean bin...
 	@rm -rf ./bin

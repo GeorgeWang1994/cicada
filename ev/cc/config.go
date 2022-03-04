@@ -6,6 +6,7 @@ import (
 	"errors"
 	"log"
 	"sync"
+	"time"
 )
 
 type RpcConfig struct {
@@ -23,23 +24,42 @@ type ClickhouseConfig struct {
 }
 
 type JudgeConfig struct {
-	Enabled      bool                    `json:"enabled"`
-	Batch        int                     `json:"batch"`
-	DialTimeout  int                     `json:"dialTimeout"`
-	IdleTimeout  int                     `json:"idleTimeout"`
-	ReadTimeout  int                     `json:"readTimeout"`
-	WriteTimeout int                     `json:"writeTimeout"`
-	InitCap      int                     `json:"initCap"`
-	MaxCap       int                     `json:"MaxCap"`
-	Replicas     int                     `json:"replicas"`
-	Cluster      map[string]string       `json:"cluster"`
+	Enabled      bool              `json:"enabled"`
+	Batch        int               `json:"batch"`
+	DialTimeout  int               `json:"dialTimeout"`
+	IdleTimeout  int               `json:"idleTimeout"`
+	ReadTimeout  int               `json:"readTimeout"`
+	WriteTimeout int               `json:"writeTimeout"`
+	InitCap      int               `json:"initCap"`
+	MaxCap       int               `json:"MaxCap"`
+	Replicas     int               `json:"replicas"`
+	Cluster      map[string]string `json:"cluster"`
+}
+
+type KafkaConfig struct {
+	Enabled    bool          `json:"enabled"`
+	Broker     []string      `json:"broker"`
+	Topic      string        `json:"topic"`
+	BatchSize  uint          `json:"batchSize"`
+	Timeout    uint          `json:"timeout"`
+	BatchDelay time.Duration `json:"batchDelay"`
+	Compress   bool          `json:"compress"`
+}
+
+type EventWorkerConfig struct {
+	Enable  bool `json:"enable"`
+	DataCap int  `json:"dataCap"`
+	InitCap int  `json:"initCap"`
+	MaxCap  int  `json:"maxCap"`
 }
 
 type GlobalConfig struct {
-	Debug      bool              `json:"debug"`
-	Rpc        *RpcConfig        `json:"rpc"`
-	Judge      *JudgeConfig      `json:"judge"`
-	Clickhouse *ClickhouseConfig `json:"clickhouse"`
+	Debug       bool               `json:"debug"`
+	Rpc         *RpcConfig         `json:"rpc"`
+	Judge       *JudgeConfig       `json:"judge"`
+	Kafka       *KafkaConfig       `json:"kafka"`
+	Clickhouse  *ClickhouseConfig  `json:"clickhouse"`
+	EventWorker *EventWorkerConfig `json:"eventWorker"`
 }
 
 var (

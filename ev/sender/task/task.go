@@ -6,7 +6,7 @@ import (
 	"context"
 )
 
-func StartSendTasks(ctx context.Context) {
+func InitSendTasks(ctx context.Context) {
 	cfg := cc.Config()
 	// init semaphore
 	judgeConcurrent := cfg.Judge.InitCap

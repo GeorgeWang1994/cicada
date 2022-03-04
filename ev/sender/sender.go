@@ -10,5 +10,5 @@ import (
 func Start(ctx context.Context) {
 	node.InitNodeRings()
 	pool.InitConnPools()
-	task.StartSendTasks(ctx)
+	task.InitSendTasks(ctx)
 }

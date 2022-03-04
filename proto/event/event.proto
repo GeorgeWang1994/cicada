@@ -1,6 +1,10 @@
 syntax = "proto3";
-import "cicada.base";
-package cicada.event;
+
+import public "proto/base.proto";
+
+package event;
+
+option go_package = "proto";
 
 message EventRequest {
   repeated HoneypotEvent events = 1;
