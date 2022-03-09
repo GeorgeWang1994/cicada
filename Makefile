@@ -30,13 +30,9 @@ docker:
 .PHONY : proto
 proto:
 	@echo generate proto...;
-	@ for i in proto/*; \
+	@ for i in proto/*.proto; \
 	do \
-		if [[ -d $$i ]]; then \
-			protoc --proto_path=$$i --go_out=$$i $$i/*.proto; \
-		else \
-			protoc --proto_path=. --go_out=. $$i; \
-		fi \
+		protoc --proto_path=. --go_out=proto/ $$i; \
 	done
 
 clean:

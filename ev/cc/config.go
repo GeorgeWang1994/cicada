@@ -40,6 +40,7 @@ type KafkaConfig struct {
 	Enabled    bool          `json:"enabled"`
 	Broker     []string      `json:"broker"`
 	Topic      string        `json:"topic"`
+	Partition  int           `json:"partition"`
 	BatchSize  uint          `json:"batchSize"`
 	Timeout    uint          `json:"timeout"`
 	BatchDelay time.Duration `json:"batchDelay"`

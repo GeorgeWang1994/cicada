@@ -3,8 +3,8 @@ package queue
 import (
 	"cicada/ev/sender/node"
 	"cicada/pkg/model"
+	log "github.com/sirupsen/logrus"
 	nlist "github.com/toolkits/container/list"
-	"log"
 )
 
 var (
@@ -17,7 +17,7 @@ func Push2JudgeSendQueue(items []*model.HoneypotEvent) {
 		pk := item.PK()
 		n, err := node.JudgeNodeRing.GetNode(pk)
 		if err != nil {
-			log.Println("E:", err)
+			log.Printf("get node failed %v", err)
 			continue
 		}
 

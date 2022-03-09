@@ -6,22 +6,11 @@ import (
 	"cicada/ev/store/db"
 	"cicada/pkg/model"
 	"context"
-	"github.com/sirupsen/logrus"
-)
-
-type eventChannel struct {
-	eventChannel chan *model.HoneypotEvent
-	closeChannel chan bool
-}
-
-var (
-	EventWorker *eventChannel
+	log "github.com/sirupsen/logrus"
+	"github.com/vmihailenco/msgpack"
 )
 
 func InitWorker(ctx context.Context) {
-	EventWorker = &eventChannel{
-		eventChannel: make(chan *model.HoneypotEvent, cc.Config().EventWorker.DataCap),
-	}
 	for i := 0; i < cc.Config().EventWorker.InitCap; i++ {
 		go EventWorkerRun(ctx)
 	}
@@ -29,22 +18,28 @@ func InitWorker(ctx context.Context) {
 
 func EventWorkerRun(ctx context.Context) {
 	for {
-		select {
-		case data := <-EventWorker.eventChannel:
-			// todo: 这样是否还有必要发到队列中，确认确认下实际的性能
+		if cc.Config().Kafka.Enabled {
+			msg, err := KafkaReader.ReadMessage(context.Background())
+			if err != nil {
+				log.Errorf("read kafka message failed %v", err)
+			}
+
+			var event *model.HoneypotEvent
+			err = msgpack.Unmarshal(msg.Value, event)
+			if err != nil {
+				log.Errorf("unmarshal kafka message failed %v", err)
+			}
+
 			if cc.Config().Judge.Enabled {
-				queue.Push2JudgeSendQueue(data)
+				queue.Push2JudgeSendQueue([]*model.HoneypotEvent{event})
 			}
 
 			if cc.Config().Clickhouse.Enable {
-				err := db.AsyncBatchInsertHoneypotEvent(ctx, args, false)
+				err := db.AsyncBatchInsertHoneypotEvent(ctx, []*model.HoneypotEvent{event}, false)
 				if err != nil {
-					logrus.Errorf("worker run insert failded %v", err)
+					log.Errorf("worker run insert failded %v", err)
 				}
 			}
-		case ctx.Done():
-
-			return
 		}
 	}
 }

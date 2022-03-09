@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	cicada/pkg v0.0.1
+	cicada/proto v0.0.1
 	github.com/ClickHouse/clickhouse-go/v2 v2.0.12
 	github.com/hashicorp/net-rpc-msgpackrpc v0.0.0-20151116020338-a14192a58a69
 	github.com/rogpeppe/fastuuid v1.2.0
@@ -13,6 +14,11 @@ require (
 	github.com/toolkits/consistent v0.0.0-20150827090850-a6f56a64d1b1
 	github.com/toolkits/container v0.0.0-20151219225805-ba7d73adeaca
 	google.golang.org/grpc v1.44.0
+)
+
+require (
+	github.com/sirupsen/logrus v1.6.0
+	github.com/vmihailenco/msgpack v4.0.4+incompatible
 )
 
 require (
@@ -27,6 +33,7 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/klauspost/compress v1.14.2 // indirect
+	github.com/konsorten/go-windows-terminal-sequences v1.0.3 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/opentracing/opentracing-go v1.1.0 // indirect
 	github.com/paulmach/orb v0.4.0 // indirect
@@ -46,6 +53,7 @@ require (
 	golang.org/x/net v0.0.0-20210813160813-60bc85c4be6d // indirect
 	golang.org/x/sys v0.0.0-20220114195835-da31bd327af9 // indirect
 	golang.org/x/text v0.3.7 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20211208223120-3a66f561d7aa // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
@@ -53,3 +61,5 @@ require (
 )
 
 replace cicada/pkg v0.0.1 => ../pkg
+
+replace cicada/proto v0.0.1 => ../proto

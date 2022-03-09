@@ -31,5 +31,7 @@ func initApp() error {
 		sender.Start(ctx)
 	}
 
+	gg.InitWorker(ctx)
+
 	return nil
 }

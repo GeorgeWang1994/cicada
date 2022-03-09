@@ -8,6 +8,7 @@ import (
 )
 
 var KafkaWriter *kafka.Writer
+var KafkaReader *kafka.Reader
 
 // InitKafka 初始化kakfa客户端
 func InitKafka() {
@@ -26,4 +27,10 @@ func InitKafka() {
 		Topic:        cc.Config().Kafka.Topic,
 		Transport:    transport,
 	}
+
+	KafkaReader = kafka.NewReader(kafka.ReaderConfig{
+		Brokers:   cc.Config().Kafka.Broker,
+		Topic:     cc.Config().Kafka.Topic,
+		Partition: cc.Config().Kafka.Partition,
+	})
 }
