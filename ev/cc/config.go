@@ -47,6 +47,15 @@ type KafkaConfig struct {
 	Compress   bool          `json:"compress"`
 }
 
+type RedisConfig struct {
+	Enabled      bool   `json:"enabled"`
+	Dsn          string `json:"dsn"`
+	MaxIdle      int    `json:"maxIdle"`
+	ConnTimeout  int    `json:"connTimeout"`
+	ReadTimeout  int    `json:"readTimeout"`
+	WriteTimeout int    `json:"writeTimeout"`
+}
+
 type EventWorkerConfig struct {
 	Enable  bool `json:"enable"`
 	DataCap int  `json:"dataCap"`
@@ -59,6 +68,7 @@ type GlobalConfig struct {
 	Rpc         *RpcConfig         `json:"rpc"`
 	Judge       *JudgeConfig       `json:"judge"`
 	Kafka       *KafkaConfig       `json:"kafka"`
+	Redis       *RedisConfig       `json:"redis"`
 	Clickhouse  *ClickhouseConfig  `json:"clickhouse"`
 	EventWorker *EventWorkerConfig `json:"eventWorker"`
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"cicada/ev/cc"
+	"cicada/ev/cron"
 	"cicada/ev/gg"
 	"cicada/ev/rpc"
 	"cicada/ev/sender"
@@ -19,6 +20,10 @@ func initApp() error {
 	ctx := context.Background()
 	rpc.Start(ctx)
 
+	if cc.Config().Redis.Enabled {
+		gg.InitRedisConnPool()
+	}
+
 	if cc.Config().Kafka.Enabled {
 		gg.InitKafka()
 	}
@@ -32,6 +37,8 @@ func initApp() error {
 	}
 
 	gg.InitWorker(ctx)
+
+	cron.Sync2Clickhouse(ctx)
 
 	return nil
 }

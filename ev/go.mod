@@ -17,6 +17,7 @@ require (
 )
 
 require (
+	github.com/garyburd/redigo v1.6.3
 	github.com/sirupsen/logrus v1.6.0
 	github.com/vmihailenco/msgpack v4.0.4+incompatible
 )

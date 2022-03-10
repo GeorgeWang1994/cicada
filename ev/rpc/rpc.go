@@ -3,6 +3,7 @@ package rpc
 import (
 	"cicada/ev/cc"
 	"cicada/pkg/utils/rpc"
+	pb "cicada/proto/api/ev"
 	"context"
 	"log"
 	"net"
@@ -12,7 +13,7 @@ func Start(ctx context.Context) {
 	addr := cc.Config().Rpc.RpcAddr
 
 	gs := rpc.NewGRpcServer(ctx)
-	pb.RegisterUserServiceServer(gs)
+	pb.RegisterEventServiceServer(gs, New())
 
 	ln, e := net.Listen("tcp", addr)
 	if e != nil {

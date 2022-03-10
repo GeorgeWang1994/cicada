@@ -30,9 +30,9 @@ docker:
 .PHONY : proto
 proto:
 	@echo generate proto...;
-	@ for i in proto/*.proto; \
+	@ for i in proto/*/*.proto; \
 	do \
-		protoc --proto_path=. --go_out=proto/ $$i; \
+		/usr/local/bin/protoc --proto_path=. --go_out=proto/ --go-grpc_out=proto/ $$i; \
 	done
 
 clean:

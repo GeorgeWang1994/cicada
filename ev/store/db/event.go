@@ -60,3 +60,17 @@ func QueryHoneypotEvents(ctx context.Context) (events []model.HoneypotEvent, err
 	}
 	return
 }
+
+// GetHoneypotEvent 查询事件
+func GetHoneypotEvent(ctx context.Context, eventID string) (event model.HoneypotEvent, err error) {
+	if err = gg.ClickhouseClient.Select(ctx,
+		&event,
+		fmt.Sprintf("SELECT "+
+			"id, proto, honeypot, agent, start_time, end_time, src_ip, src_port, "+
+			"src_mac, dest_ip, dest_port, event_types, risk_level"+
+			"FROM honeypot_event WHERE id=%s", eventID),
+	); err != nil {
+		return
+	}
+	return
+}
