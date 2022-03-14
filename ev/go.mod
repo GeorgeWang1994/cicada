@@ -7,19 +7,19 @@ require (
 	cicada/proto v0.0.1
 	github.com/ClickHouse/clickhouse-go/v2 v2.0.12
 	github.com/hashicorp/net-rpc-msgpackrpc v0.0.0-20151116020338-a14192a58a69
-	github.com/rogpeppe/fastuuid v1.2.0
 	github.com/segmentio/kafka-go v0.4.29
 	github.com/spf13/cobra v1.3.0
 	github.com/toolkits/concurrent v0.0.0-20150624120057-a4371d70e3e3
 	github.com/toolkits/consistent v0.0.0-20150827090850-a6f56a64d1b1
 	github.com/toolkits/container v0.0.0-20151219225805-ba7d73adeaca
-	google.golang.org/grpc v1.44.0
+	google.golang.org/grpc v1.45.0
 )
 
 require (
 	github.com/garyburd/redigo v1.6.3
 	github.com/sirupsen/logrus v1.6.0
 	github.com/vmihailenco/msgpack v4.0.4+incompatible
+	google.golang.org/protobuf v1.27.1
 )
 
 require (
@@ -56,7 +56,6 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20211208223120-3a66f561d7aa // indirect
-	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
