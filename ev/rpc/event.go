@@ -3,6 +3,7 @@ package rpc
 import (
 	"cicada/ev/cc"
 	"cicada/ev/gg"
+	"cicada/ev/sender/queue"
 	"cicada/ev/store/db"
 	"cicada/pkg/model"
 	pb "cicada/proto/api/ev"
@@ -10,15 +11,12 @@ import (
 	"errors"
 	"fmt"
 	"github.com/garyburd/redigo/redis"
-	"github.com/rogpeppe/fastuuid"
 	"github.com/segmentio/kafka-go"
 	log "github.com/sirupsen/logrus"
 	"github.com/vmihailenco/msgpack"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"
 )
-
-var kafkaUuidGen = fastuuid.MustNewGenerator()
 
 type Event struct {
 	pb.UnimplementedEventServiceServer
@@ -40,13 +38,13 @@ func (t *Event) ReceiveEvent(ctx context.Context, request *pb.ReceiveEventReques
 	if cc.Config().Kafka.Enabled {
 		var msgs []kafka.Message
 		for _, e := range request.Events {
-			uid := kafkaUuidGen.Hex128()
 			data, err := msgpack.Marshal(e)
 			if err != nil {
 				return nil, err
 			}
+			// kafka保证了同个partition中是有序的
 			msgs = append(msgs, kafka.Message{
-				Key:   []byte(uid),
+				Key:   []byte(e.Honeypot),
 				Value: data,
 			})
 		}
@@ -72,6 +70,28 @@ func (t *Event) ReceiveEvent(ctx context.Context, request *pb.ReceiveEventReques
 				RiskLevel:  int(e.RiskLevel),
 			})
 		}
+	}
+	// 直接透传给judge节点
+	if cc.Config().Judge.Enabled {
+		var events []*model.HoneypotEvent
+		for _, e := range request.Events {
+			events = append(events, &model.HoneypotEvent{
+				ID:         e.Id,
+				Proto:      e.Proto,
+				Honeypot:   e.Honeypot,
+				Agent:      e.Agent,
+				StartTime:  time.Unix(e.StartTime.Seconds, 0),
+				EndTime:    time.Unix(e.EndTime.Seconds, 0),
+				SrcIp:      e.SrcIp,
+				SrcPort:    int(e.SrcPort),
+				SrcMac:     e.SrcMac,
+				DestIp:     e.DestIp,
+				DestPort:   int(e.DestPort),
+				EventTypes: e.EventTypes,
+				RiskLevel:  int(e.RiskLevel),
+			})
+		}
+		go queue.Push2JudgeSendQueue(events)
 	}
 	return &pb.Response{}, nil
 }
@@ -112,6 +132,31 @@ func (t *Event) GetEvent(ctx context.Context, request *pb.GetEventRequest) (*pb.
 
 // ListEvent 获取事件列表
 func (t *Event) ListEvent(ctx context.Context, request *pb.ListEventRequest) (*pb.ListEventResponse, error) {
-	var resp *pb.ListEventResponse
-	return resp, nil
+	var resp pb.ListEventResponse
+	events, err := db.QueryHoneypotEvents(ctx, db.QueryHoneypotEventParam{
+		Limit:  request.Limit,
+		Offset: request.Offset,
+	})
+	if err != nil {
+		return &pb.ListEventResponse{}, errors.New(fmt.Sprintf("get event from ck failed %v", err))
+	}
+	resp.Events = make([]*pb.HoneypotEvent, 0)
+	for _, event := range events {
+		resp.Events = append(resp.Events, &pb.HoneypotEvent{
+			Id:         event.ID,
+			Proto:      event.Proto,
+			Honeypot:   event.Honeypot,
+			Agent:      event.Agent,
+			StartTime:  &timestamppb.Timestamp{Seconds: event.StartTime.Unix()},
+			EndTime:    &timestamppb.Timestamp{Seconds: event.EndTime.Unix()},
+			SrcIp:      event.SrcIp,
+			SrcPort:    int32(event.SrcPort),
+			SrcMac:     event.SrcMac,
+			DestIp:     event.DestIp,
+			DestPort:   int32(event.DestPort),
+			EventTypes: event.EventTypes,
+			RiskLevel:  int32(event.RiskLevel),
+		})
+	}
+	return &resp, nil
 }

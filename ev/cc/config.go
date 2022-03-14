@@ -4,7 +4,7 @@ import (
 	"cicada/pkg/utils/file"
 	"encoding/json"
 	"errors"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"sync"
 	"time"
 )

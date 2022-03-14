@@ -7,6 +7,11 @@ import (
 	"fmt"
 )
 
+type QueryHoneypotEventParam struct {
+	Limit  int32
+	Offset int32
+}
+
 // BatchInsertHoneypotEvent 批量添加事件
 func BatchInsertHoneypotEvent(ctx context.Context, events []*model.HoneypotEvent) error {
 	batch, err := gg.ClickhouseClient.PrepareBatch(ctx, "INSERT INTO honeypot_event")
@@ -48,13 +53,17 @@ func AsyncBatchInsertHoneypotEvent(ctx context.Context, events []*model.Honeypot
 }
 
 // QueryHoneypotEvents 查询事件列表
-func QueryHoneypotEvents(ctx context.Context) (events []model.HoneypotEvent, err error) {
+func QueryHoneypotEvents(ctx context.Context, param QueryHoneypotEventParam) (events []model.HoneypotEvent, err error) {
+	if param.Offset < 0 {
+		param.Offset = 0
+	}
+	if param.Limit <= 0 {
+		param.Limit = 20
+	}
+	start, end := param.Offset, param.Offset+param.Limit
 	if err = gg.ClickhouseClient.Select(ctx,
 		&events,
-		"SELECT "+
-			"id, proto, honeypot, agent, start_time, end_time, src_ip, src_port, "+
-			"src_mac, dest_ip, dest_port, event_types, risk_level"+
-			"FROM honeypot_event",
+		"SELECT * FROM honeypot_event LIMIT $1, $2", start, end,
 	); err != nil {
 		return
 	}
@@ -65,10 +74,8 @@ func QueryHoneypotEvents(ctx context.Context) (events []model.HoneypotEvent, err
 func GetHoneypotEvent(ctx context.Context, eventID string) (event model.HoneypotEvent, err error) {
 	if err = gg.ClickhouseClient.Select(ctx,
 		&event,
-		fmt.Sprintf("SELECT "+
-			"id, proto, honeypot, agent, start_time, end_time, src_ip, src_port, "+
-			"src_mac, dest_ip, dest_port, event_types, risk_level"+
-			"FROM honeypot_event WHERE id=%s", eventID),
+		"SELECT * FROM honeypot_event WHERE id=$1 LIMIT 1",
+		eventID,
 	); err != nil {
 		return
 	}

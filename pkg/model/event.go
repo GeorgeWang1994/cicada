@@ -22,7 +22,7 @@ type HoneypotEvent struct {
 }
 
 func (p *HoneypotEvent) PK() string {
-	return fmt.Sprintf("%s-%s-%s", p.ID, p.Proto, p.Agent)
+	return fmt.Sprintf("%s-%s-%s", p.Agent, p.Proto, p.Honeypot)
 }
 
 type HoneypotEventRequest struct {

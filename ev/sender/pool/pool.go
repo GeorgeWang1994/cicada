@@ -3,8 +3,8 @@ package pool
 import (
 	"cicada/ev/cc"
 	"cicada/pkg/utils/pool"
+	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
-	"log"
 	"time"
 )
 

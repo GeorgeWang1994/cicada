@@ -1,9 +1,9 @@
 package rpc
 
 import (
-	"cicada/ev/cc"
+	"cicada/judge/cc"
 	"cicada/pkg/utils/rpc"
-	pb "cicada/proto/api/ev"
+	pb "cicada/proto/api/judge"
 	"context"
 	log "github.com/sirupsen/logrus"
 	"net"
@@ -13,7 +13,7 @@ func Start(ctx context.Context) {
 	addr := cc.Config().Rpc.RpcAddr
 
 	gs := rpc.NewGRpcServer(ctx)
-	pb.RegisterEventServiceServer(gs, New())
+	pb.RegisterJudgeServiceServer(gs, New())
 
 	ln, e := net.Listen("tcp", addr)
 	if e != nil {

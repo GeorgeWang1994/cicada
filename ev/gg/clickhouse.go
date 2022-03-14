@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/ClickHouse/clickhouse-go/v2/lib/compress"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"time"
 )
 

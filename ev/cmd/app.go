@@ -30,15 +30,16 @@ func initApp() error {
 
 	if cc.Config().Clickhouse.Enable {
 		gg.InitClickhouseClient(ctx)
+		cron.Sync2Clickhouse(ctx)
+	}
+
+	if cc.Config().EventWorker.Enable {
+		gg.InitWorker(ctx)
 	}
 
 	if cc.Config().Judge.Enabled {
 		sender.Start(ctx)
 	}
-
-	gg.InitWorker(ctx)
-
-	cron.Sync2Clickhouse(ctx)
 
 	return nil
 }

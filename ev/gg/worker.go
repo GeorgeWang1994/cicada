@@ -44,7 +44,7 @@ func EventWorkerRun(ctx context.Context) {
 				log.Errorf("read kafka message failed %v", err)
 			}
 			var event model.HoneypotEvent
-			err = msgpack.Unmarshal(msg.Value, event)
+			err = msgpack.Unmarshal(msg.Value, &event)
 			if err != nil {
 				log.Errorf("unmarshal kafka message failed %v", err)
 				continue
