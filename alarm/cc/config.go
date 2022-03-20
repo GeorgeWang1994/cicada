@@ -8,10 +8,8 @@ import (
 	"sync"
 )
 
-type WorkerConfig struct {
-	IM   int `json:"im"`
-	Sms  int `json:"sms"`
-	Mail int `json:"mail"`
+type ProviderConfig struct {
+	IM string `json:"im"`
 }
 
 type RpcConfig struct {
@@ -20,25 +18,19 @@ type RpcConfig struct {
 }
 
 type RedisConfig struct {
-	Dsn          string `json:"dsn"`
-	MaxIdle      int    `json:"maxIdle"`
-	ConnTimeout  int    `json:"connTimeout"`
-	ReadTimeout  int    `json:"readTimeout"`
-	WriteTimeout int    `json:"writeTimeout"`
-	// 不同威胁等级的队列
-	HighQueues   []string `json:"highQueues"`
-	MediumQueues []string `json:"mediumQueues"`
-	LowQueues    []string `json:"lowQueues"`
-	// 不用providor的队列
-	UserIMQueue   string `json:"userIMQueue"`
-	UserSmsQueue  string `json:"userSmsQueue"`
-	UserMailQueue string `json:"userMailQueue"`
+	Dsn          string   `json:"dsn"`
+	MaxIdle      int      `json:"maxIdle"`
+	ConnTimeout  int      `json:"connTimeout"`
+	ReadTimeout  int      `json:"readTimeout"`
+	WriteTimeout int      `json:"writeTimeout"`
+	Queues       []string `json:"Queues"`
 }
 
 type GlobalConfig struct {
-	Debug bool         `json:"debug"`
-	RPC   *RpcConfig   `json:"rpc"`
-	Redis *RedisConfig `json:"redis"`
+	Debug    bool            `json:"debug"`
+	RPC      *RpcConfig      `json:"rpc"`
+	Redis    *RedisConfig    `json:"redis"`
+	Provider *ProviderConfig `json:"provider"`
 }
 
 var (

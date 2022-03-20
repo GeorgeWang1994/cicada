@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.26.0
 // 	protoc        v3.20.0
-// source: proto/judge/judge.proto
+// source: proto/judge/alarm.proto
 
 package judge
 

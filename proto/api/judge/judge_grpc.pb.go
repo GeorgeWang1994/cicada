@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.20.0--rc1
-// source: proto/judge/judge.proto
+// source: proto/judge/alarm.proto
 
 package judge
 
@@ -137,5 +137,5 @@ var JudgeService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/judge/judge.proto",
+	Metadata: "proto/judge/alarm.proto",
 }

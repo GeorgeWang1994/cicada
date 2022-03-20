@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+// 找不到timestamp的话需要去官网下载
+import "google/protobuf/timestamp.proto";
+
+package event;
+
+option go_package = "api/alarm";
+
+// 蜜罐事件
+message HoneypotEvent {
+  string                    id = 1;
+  string                    proto = 2;
+  string                    honeypot = 3;
+  string                    agent = 4;
+  google.protobuf.Timestamp start_time = 5;
+  google.protobuf.Timestamp end_time = 6;
+  string                    src_ip = 7;
+  int32                     src_port = 8;
+  string                    src_mac = 9;
+  string                    dest_ip = 10;
+  int32                     dest_port = 11;
+  repeated string           event_types = 12;
+  int32                     risk_level = 13;
+}
+
+message ReceiveEventRequest {
+  repeated HoneypotEvent events = 1;
+}
+
+message Response {
+  int32  code = 1;
+  string msg = 2;
+}
+
+message Empty {
+}
+
+service AlarmService {
+  rpc Ping (Empty) returns (Response) {};
+  rpc ReceiveEvent (ReceiveEventRequest) returns (Response) {};
+}
