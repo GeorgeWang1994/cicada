@@ -29,10 +29,17 @@ type AlarmConfig struct {
 	Redis        *RedisConfig `json:"redis"`
 }
 
+type PortalConfig struct {
+	Servers      []string `json:"servers"`
+	Timeout      int      `json:"timeout"`
+	SyncInterval int64    `json:"sync_interval"` // 同步数据时间范围
+}
+
 type GlobalConfig struct {
-	Rpc   *RpcConfig   `json:"rpc"`
-	Alarm *AlarmConfig `json:"alarm"`
-	Debug bool         `json:"debug"`
+	Rpc    *RpcConfig    `json:"rpc"`
+	Alarm  *AlarmConfig  `json:"alarm"`
+	Portal *PortalConfig `json:"portal"`
+	Debug  bool          `json:"debug"`
 }
 
 var (

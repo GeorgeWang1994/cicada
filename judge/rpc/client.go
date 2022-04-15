@@ -14,7 +14,7 @@ import (
 
 type ConnRPCClient struct {
 	sync.Mutex
-	RpcAddr   string
+	RpcAddrs  []string
 	rpcClient *rpc.Client
 	Timeout   time.Duration
 }
@@ -31,18 +31,20 @@ func (c *ConnRPCClient) serverConn() error {
 			return nil
 		}
 
-		conn, err := net.DialTimeout("tcp", c.RpcAddr, c.Timeout)
-		if err != nil {
-			log.Printf("dial %s fail: %v", c.RpcAddr, err)
-			if retry > 3 {
-				return err
+		for _, rpcAddr := range c.RpcAddrs {
+			conn, err := net.DialTimeout("tcp", rpcAddr, c.Timeout)
+			if err != nil {
+				log.Printf("dial %s fail: %v", rpcAddr, err)
+				if retry > 3 {
+					return err
+				}
+				time.Sleep(time.Duration(math.Pow(2.0, float64(retry))) * time.Second)
+				retry++
+				continue
 			}
-			time.Sleep(time.Duration(math.Pow(2.0, float64(retry))) * time.Second)
-			retry++
-			continue
+			c.rpcClient = msgpackrpc.NewClient(conn)
 		}
-		c.rpcClient = msgpackrpc.NewClient(conn)
-		return err
+		return nil
 	}
 }
 
@@ -73,21 +75,22 @@ func (c *ConnRPCClient) Call(method string, args interface{}, reply interface{})
 
 	select {
 	case <-time.After(timeout):
-		log.Printf("[WARN] connpool call timeout %v => %v", c.rpcClient, c.RpcAddr)
+		log.Printf("[WARN] connpool call timeout %v", c.rpcClient)
 		c.close()
-		return errors.New(c.RpcAddr + " connpool call timeout")
+		return errors.New(" connpool call timeout")
 	case err := <-done:
 		if err != nil {
 			c.close()
 			return err
 		}
 	}
+
 	return nil
 }
 
-func NewRpcClient(addr string, timeout time.Duration) *ConnRPCClient {
+func NewRpcClient(addrs []string, timeout time.Duration) *ConnRPCClient {
 	return &ConnRPCClient{
-		RpcAddr: addr,
-		Timeout: timeout,
+		RpcAddrs: addrs,
+		Timeout:  timeout,
 	}
 }

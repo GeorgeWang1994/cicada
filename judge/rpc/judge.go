@@ -5,6 +5,7 @@ import (
 	"cicada/pkg/model"
 	pb "cicada/proto/api/judge"
 	"context"
+	log "github.com/sirupsen/logrus"
 	"time"
 )
 
@@ -22,7 +23,7 @@ func (t *Judge) Ping(ctx context.Context, request *pb.Empty) (*pb.Response, erro
 
 func (t *Judge) ReceiveEvent(ctx context.Context, request *pb.ReceiveEventRequest) (*pb.Response, error) {
 	for _, e := range request.Events {
-		judge.Judge(&model.HoneypotEvent{
+		if err := judge.Judge(&model.HoneypotEvent{
 			ID:         e.Id,
 			Proto:      e.Proto,
 			Honeypot:   e.Honeypot,
@@ -36,7 +37,9 @@ func (t *Judge) ReceiveEvent(ctx context.Context, request *pb.ReceiveEventReques
 			DestPort:   int(e.DestPort),
 			EventTypes: e.EventTypes,
 			RiskLevel:  int(e.RiskLevel),
-		})
+		}); err != nil {
+			log.Errorf("judge event error %s", e.Id)
+		}
 	}
 	return &pb.Response{}, nil
 }

@@ -1,6 +1,13 @@
 package judge
 
-import "cicada/pkg/model"
+import (
+	"cicada/judge/cc"
+	"cicada/judge/gg"
+	"cicada/pkg/model"
+	"encoding/json"
+	"fmt"
+	log "github.com/sirupsen/logrus"
+)
 
 /**
 
@@ -22,6 +29,29 @@ import "cicada/pkg/model"
 
 */
 
-func Judge(e *model.HoneypotEvent) {
+func Judge(e *model.HoneypotEvent) error {
+	if err := sendEvent(e); err != nil {
+		return err
+	}
+	return nil
+}
 
+func sendEvent(event *model.HoneypotEvent) error {
+	bs, err := json.Marshal(event)
+	if err != nil {
+		log.Printf("json marshal event %v fail: %v", event, err)
+		return err
+	}
+
+	// send to redis
+	redisKey := fmt.Sprintf(cc.Config().Alarm.QueuePattern)
+	rc := gg.RedisConnPool.Get()
+	defer rc.Close()
+
+	_, err = rc.Do("LPUSH", redisKey, string(bs))
+	if err != nil {
+		log.Printf("push event to redis %v fail: %v", event, err)
+		return err
+	}
+	return nil
 }
