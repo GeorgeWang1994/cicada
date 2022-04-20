@@ -41,17 +41,15 @@ func SendEvent() {
 
 func mockEventInfo() model.HoneypotEvent {
 	return model.HoneypotEvent{
-		Proto:      "tcp",
-		Honeypot:   uuid.New().String(),
-		Agent:      cc.Config().ID,
-		StartTime:  time.Now(),
-		EndTime:    time.Now(),
-		SrcIp:      "127.0.0.1",
-		SrcPort:    10000,
-		SrcMac:     "aa:bb:cc:dd",
-		DestIp:     "127.0.0.1",
-		DestPort:   20000,
-		EventTypes: []string{"password_login", "web_attacker"},
-		RiskLevel:  1,
+		Proto:     "tcp",
+		Honeypot:  uuid.New().String(),
+		Agent:     cc.Config().ID,
+		StartTime: time.Now(),
+		EndTime:   time.Now(),
+		SrcIp:     "127.0.0.1",
+		SrcPort:   10000,
+		DestIp:    "127.0.0.1",
+		DestPort:  20000,
+		RiskLevel: 1,
 	}
 }
