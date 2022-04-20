@@ -55,19 +55,17 @@ func (t *Event) ReceiveEvent(ctx context.Context, request *pb.ReceiveEventReques
 	} else {
 		for _, e := range request.Events {
 			gg.EventChannel.AppendEvent(&model.HoneypotEvent{
-				ID:         e.Id,
-				Proto:      e.Proto,
-				Honeypot:   e.Honeypot,
-				Agent:      e.Agent,
-				StartTime:  time.Unix(e.StartTime.Seconds, 0),
-				EndTime:    time.Unix(e.EndTime.Seconds, 0),
-				SrcIp:      e.SrcIp,
-				SrcPort:    int(e.SrcPort),
-				SrcMac:     e.SrcMac,
-				DestIp:     e.DestIp,
-				DestPort:   int(e.DestPort),
-				EventTypes: e.EventTypes,
-				RiskLevel:  int(e.RiskLevel),
+				ID:        e.Id,
+				Proto:     e.Proto,
+				Honeypot:  e.Honeypot,
+				Agent:     e.Agent,
+				StartTime: time.Unix(e.StartTime.Seconds, 0),
+				EndTime:   time.Unix(e.EndTime.Seconds, 0),
+				SrcIp:     e.SrcIp,
+				SrcPort:   int(e.SrcPort),
+				DestIp:    e.DestIp,
+				DestPort:  int(e.DestPort),
+				RiskLevel: int(e.RiskLevel),
 			})
 		}
 	}
@@ -76,19 +74,17 @@ func (t *Event) ReceiveEvent(ctx context.Context, request *pb.ReceiveEventReques
 		var events []*model.HoneypotEvent
 		for _, e := range request.Events {
 			events = append(events, &model.HoneypotEvent{
-				ID:         e.Id,
-				Proto:      e.Proto,
-				Honeypot:   e.Honeypot,
-				Agent:      e.Agent,
-				StartTime:  time.Unix(e.StartTime.Seconds, 0),
-				EndTime:    time.Unix(e.EndTime.Seconds, 0),
-				SrcIp:      e.SrcIp,
-				SrcPort:    int(e.SrcPort),
-				SrcMac:     e.SrcMac,
-				DestIp:     e.DestIp,
-				DestPort:   int(e.DestPort),
-				EventTypes: e.EventTypes,
-				RiskLevel:  int(e.RiskLevel),
+				ID:        e.Id,
+				Proto:     e.Proto,
+				Honeypot:  e.Honeypot,
+				Agent:     e.Agent,
+				StartTime: time.Unix(e.StartTime.Seconds, 0),
+				EndTime:   time.Unix(e.EndTime.Seconds, 0),
+				SrcIp:     e.SrcIp,
+				SrcPort:   int(e.SrcPort),
+				DestIp:    e.DestIp,
+				DestPort:  int(e.DestPort),
+				RiskLevel: int(e.RiskLevel),
 			})
 		}
 		go queue.Push2JudgeSendQueue(events)
@@ -114,19 +110,17 @@ func (t *Event) GetEvent(ctx context.Context, request *pb.GetEventRequest) (*pb.
 		return &pb.GetEventResponse{}, errors.New(fmt.Sprintf("get event %s from ck failed %v", request.EventId, err))
 	}
 	return &pb.GetEventResponse{Event: &pb.HoneypotEvent{
-		Id:         event.ID,
-		Proto:      event.Proto,
-		Honeypot:   event.Honeypot,
-		Agent:      event.Agent,
-		StartTime:  &timestamppb.Timestamp{Seconds: event.StartTime.Unix()},
-		EndTime:    &timestamppb.Timestamp{Seconds: event.EndTime.Unix()},
-		SrcIp:      event.SrcIp,
-		SrcPort:    int32(event.SrcPort),
-		SrcMac:     event.SrcMac,
-		DestIp:     event.DestIp,
-		DestPort:   int32(event.DestPort),
-		EventTypes: event.EventTypes,
-		RiskLevel:  int32(event.RiskLevel),
+		Id:        event.ID,
+		Proto:     event.Proto,
+		Honeypot:  event.Honeypot,
+		Agent:     event.Agent,
+		StartTime: &timestamppb.Timestamp{Seconds: event.StartTime.Unix()},
+		EndTime:   &timestamppb.Timestamp{Seconds: event.EndTime.Unix()},
+		SrcIp:     event.SrcIp,
+		SrcPort:   int32(event.SrcPort),
+		DestIp:    event.DestIp,
+		DestPort:  int32(event.DestPort),
+		RiskLevel: int32(event.RiskLevel),
 	}}, nil
 }
 
@@ -143,19 +137,17 @@ func (t *Event) ListEvent(ctx context.Context, request *pb.ListEventRequest) (*p
 	resp.Events = make([]*pb.HoneypotEvent, 0)
 	for _, event := range events {
 		resp.Events = append(resp.Events, &pb.HoneypotEvent{
-			Id:         event.ID,
-			Proto:      event.Proto,
-			Honeypot:   event.Honeypot,
-			Agent:      event.Agent,
-			StartTime:  &timestamppb.Timestamp{Seconds: event.StartTime.Unix()},
-			EndTime:    &timestamppb.Timestamp{Seconds: event.EndTime.Unix()},
-			SrcIp:      event.SrcIp,
-			SrcPort:    int32(event.SrcPort),
-			SrcMac:     event.SrcMac,
-			DestIp:     event.DestIp,
-			DestPort:   int32(event.DestPort),
-			EventTypes: event.EventTypes,
-			RiskLevel:  int32(event.RiskLevel),
+			Id:        event.ID,
+			Proto:     event.Proto,
+			Honeypot:  event.Honeypot,
+			Agent:     event.Agent,
+			StartTime: &timestamppb.Timestamp{Seconds: event.StartTime.Unix()},
+			EndTime:   &timestamppb.Timestamp{Seconds: event.EndTime.Unix()},
+			SrcIp:     event.SrcIp,
+			SrcPort:   int32(event.SrcPort),
+			DestIp:    event.DestIp,
+			DestPort:  int32(event.DestPort),
+			RiskLevel: int32(event.RiskLevel),
 		})
 	}
 	return &resp, nil

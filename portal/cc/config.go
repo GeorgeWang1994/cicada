@@ -22,24 +22,10 @@ type RpcConfig struct {
 	Timeout int    `json:"timeout"`
 }
 
-type AlarmConfig struct {
-	Enabled      bool         `json:"enabled"`
-	MinInterval  int64        `json:"minInterval"`  // 告警最小间隔时间
-	QueuePattern string       `json:"queuePattern"` // 告警的队列，用来告诉发往哪个redis key
-	Redis        *RedisConfig `json:"redis"`
-}
-
-type PortalConfig struct {
-	Servers      []string `json:"servers"`
-	Timeout      int      `json:"timeout"`
-	SyncInterval int64    `json:"sync_interval"` // 同步数据时间范围
-}
-
 type GlobalConfig struct {
-	Rpc    *RpcConfig    `json:"rpc"`
-	Alarm  *AlarmConfig  `json:"alarm"`
-	Portal *PortalConfig `json:"portal"`
-	Debug  bool          `json:"debug"`
+	Rpc   *RpcConfig   `json:"rpc"`
+	Redis *RedisConfig `json:"redis"`
+	Debug bool         `json:"debug"`
 }
 
 var (

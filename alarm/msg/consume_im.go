@@ -13,7 +13,7 @@ import (
 type ImHandler struct{}
 
 func (h *ImHandler) GenerateIMContent(event *model.HoneypotEvent) string {
-	return fmt.Sprintf("收到攻击蜜罐%s的探针%s的告警信息", event.Honeypot, event.Agent)
+	return fmt.Sprintf("收到攻击事件%s告警信息", event.ID)
 }
 
 func (h *ImHandler) Send(msg *Message) error {

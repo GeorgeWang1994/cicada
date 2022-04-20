@@ -5,6 +5,7 @@ import (
 	"cicada/judge/gg"
 	"cicada/pkg/model"
 	"encoding/json"
+	"errors"
 	"fmt"
 	log "github.com/sirupsen/logrus"
 )
@@ -30,10 +31,37 @@ import (
 */
 
 func Judge(e *model.HoneypotEvent) error {
-	if err := sendEvent(e); err != nil {
-		return err
+	strategies := gg.AlarmStrategy.Get()
+	if len(strategies) < 0 {
+		return errors.New("not exists strategies")
 	}
+
+	for _, s := range strategies {
+		err, trigger := judgeEventWithStrategy(s, e)
+		if err != nil {
+			log.Errorf("judge event %d with stragegy %s failed", s.ID, e.ID)
+			continue
+		}
+		if trigger {
+			if err := sendEvent(e); err != nil {
+				return err
+			}
+		}
+	}
+
 	return nil
+}
+
+// 根据策略判断事件是否触发告警
+func judgeEventWithStrategy(strategy model.AlarmStrategy, event *model.HoneypotEvent) (error, bool) {
+	fn, err := ParseFunc(strategy)
+	if err != nil {
+		return err, false
+	}
+
+	// todo: 确认如何满足现有的功能
+	isTriggered := fn.Compute(nil, "all", 100)
+	return nil, isTriggered
 }
 
 func sendEvent(event *model.HoneypotEvent) error {

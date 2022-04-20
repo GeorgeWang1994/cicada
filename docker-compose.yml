@@ -1,0 +1,123 @@
+version: "3"
+services:
+  redis:
+    container_name: redis
+    build:
+      context: ./docker/redis
+    volumes:
+      - ${DATA_PATH}/redis:/data
+      - ${REDIS_LOG_PATH}:/var/log/redis
+    ports:
+      - "${REDIS_PORT}:6379"
+    networks:
+      backend:
+  redis-webui:
+    container_name: redis-webui
+    build:
+      context: ./docker/redis.env
+    env_file:
+      - env/redis-webui.env
+    environment:
+      - ADMIN_USER=${REDIS_WEBUI_USERNAME}
+      - ADMIN_PASS=${REDIS_WEBUI_PASSWORD}
+      - REDIS_1_HOST=${REDIS_WEBUI_CONNECT_HOST}
+      - REDIS_1_PORT=${REDIS_WEBUI_CONNECT_PORT}
+      - REDIS_1_AUTH=${REDIS_WEBUI_CONNECT_AUTH}
+    networks:
+      - frontend
+    ports:
+      - "${REDIS_WEBUI_PORT}:80"
+    depends_on:
+      - redis
+  mysql:
+    container_name: mysql
+    build:
+      context: ./docker/mysql
+    env_file:
+      - env/mysql.env
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${DATA_PATH}/mysql/57:/var/lib/mysql
+      - ${MYSQL_LOG_PATH}/57:/var/log/mysql
+    ports:
+      - "${MYSQL57_PORT}:3306"
+    networks:
+      - backend
+  mysql-slave:
+    container_name: slave
+    build:
+      context: ./docker/slave
+    env_file:
+      - env/mysql.env
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${DATA_PATH}/mysql/slave:/var/lib/mysql
+      - ${MYSQL_LOG_PATH}/slave:/var/log/mysql
+    ports:
+      - "${MYSQL_SLAVE_PORT}:3306"
+    networks:
+      - backend
+  zk:
+    build: ./docker/zk
+    container_name: zk
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=zk:2888:3888
+    networks:
+      - backend
+  kafka:
+    build: ./docker/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zk:2181
+      KAFKA_BROKER_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zk
+    networks:
+      - backend
+  kafka-manager:
+    build: ./docker/kafka-manager
+    ports:
+      - "9111:9000"
+    environment:
+      ZK_HOSTS: zk:2181
+      KAFKA_BROKERS: kafka:9092
+    networks:
+      - frontend
+      - backend
+  clickhouse:
+    image: yandex/clickhouse-server
+    container_name: clickhouse-server
+    restart: always
+    env_file:
+      - env/ck.env
+    ulimits:
+      nofile:
+        soft: "262144"
+        hard: "262144"
+    ports:
+      - 8123:8123
+      - 9000:9000
+    volumes:
+      - ${DATA_PATH}/clickhouse/config.xml:/etc/clickhouse-server/config.xml
+      - ${DATA_PATH}/clickhouse/users.xml:/etc/clickhouse-server/users.xml
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}

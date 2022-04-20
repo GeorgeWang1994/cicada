@@ -24,21 +24,20 @@ func (t *Judge) Ping(ctx context.Context, request *pb.Empty) (*pb.Response, erro
 func (t *Judge) ReceiveEvent(ctx context.Context, request *pb.ReceiveEventRequest) (*pb.Response, error) {
 	for _, e := range request.Events {
 		if err := judge.Judge(&model.HoneypotEvent{
-			ID:         e.Id,
-			Proto:      e.Proto,
-			Honeypot:   e.Honeypot,
-			Agent:      e.Agent,
-			StartTime:  time.Unix(e.StartTime.Seconds, 0),
-			EndTime:    time.Unix(e.EndTime.Seconds, 0),
-			SrcIp:      e.SrcIp,
-			SrcPort:    int(e.SrcPort),
-			SrcMac:     e.SrcMac,
-			DestIp:     e.DestIp,
-			DestPort:   int(e.DestPort),
-			EventTypes: e.EventTypes,
-			RiskLevel:  int(e.RiskLevel),
+			ID:        e.Id,
+			Proto:     e.Proto,
+			Honeypot:  e.Honeypot,
+			Agent:     e.Agent,
+			StartTime: time.Unix(e.StartTime.Seconds, 0),
+			EndTime:   time.Unix(e.EndTime.Seconds, 0),
+			SrcIp:     e.SrcIp,
+			SrcPort:   int(e.SrcPort),
+			DestIp:    e.DestIp,
+			DestPort:  int(e.DestPort),
+			RiskLevel: int(e.RiskLevel),
 		}); err != nil {
-			log.Errorf("judge event error %s", e.Id)
+			log.Errorf("judge event %s error %v", e.Id, err)
+			continue
 		}
 	}
 	return &pb.Response{}, nil

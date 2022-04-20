@@ -1,5 +1,10 @@
 package judge
 
+import (
+	"cicada/judge/judge/function"
+	"cicada/pkg/model"
+)
+
 type Function interface {
 	Name() (name string)
 	BeforeCompute() error
@@ -16,4 +21,9 @@ func GetFunc(name string) Function {
 		}
 	}
 	return nil
+}
+
+// ParseFunc todo: 完善函数解析
+func ParseFunc(strategy model.AlarmStrategy) (Function, error) {
+	return function.AllFunction{}, nil
 }

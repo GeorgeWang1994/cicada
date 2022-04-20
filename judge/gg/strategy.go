@@ -5,22 +5,43 @@ import (
 	"sync"
 )
 
-type SafeStrategyMap struct {
+type SafeStrategy struct {
 	sync.RWMutex
-	M map[string][]model.Strategy
+	M []model.AlarmStrategy
 }
 
 var (
-	StrategyMap = &SafeStrategyMap{M: make(map[string][]model.Strategy)} // 缓存终端和策略的映射关系
+	AlarmStrategy = &SafeStrategy{M: make([]model.AlarmStrategy, 0)} // 缓存终端和策略的映射关系
 )
 
-func (s *SafeStrategyMap) ReInit(m map[string][]model.Strategy) {
+func (s *SafeStrategy) ReInit(m []model.AlarmStrategy) {
 	s.Lock()
 	defer s.Unlock()
 	s.M = m
 }
 
-func (s *SafeStrategyMap) Get() map[string][]model.Strategy {
+func (s *SafeStrategy) Get() []model.AlarmStrategy {
+	s.RLock()
+	defer s.RUnlock()
+	return s.M
+}
+
+type SafeSubscribeStrategy struct {
+	sync.RWMutex
+	M []model.SubscribeStrategy
+}
+
+var (
+	SubscribeStrategy = &SafeStrategy{M: make([]model.AlarmStrategy, 0)}
+)
+
+func (s *SafeSubscribeStrategy) ReInit(m []model.SubscribeStrategy) {
+	s.Lock()
+	defer s.Unlock()
+	s.M = m
+}
+
+func (s *SafeSubscribeStrategy) Get() []model.SubscribeStrategy {
 	s.RLock()
 	defer s.RUnlock()
 	return s.M

@@ -1,10 +1,9 @@
 package main
 
 import (
-	"cicada/judge/cc"
-	"cicada/judge/cron"
-	"cicada/judge/gg"
-	"cicada/judge/rpc"
+	"cicada/portal/cc"
+	"cicada/portal/cron"
+	"cicada/portal/rpc"
 	"context"
 	"flag"
 )
@@ -18,10 +17,6 @@ func initApp() error {
 
 	ctx := context.Background()
 	rpc.Start(ctx)
-
-	if cc.Config().Alarm.Enabled && cc.Config().Alarm.Redis.Enabled {
-		gg.InitRedisConnPool()
-	}
 
 	// 定期同步数据
 	go cron.SyncAlarmStrategy()

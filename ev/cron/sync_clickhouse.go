@@ -15,9 +15,10 @@ import (
 func Sync2Clickhouse(ctx context.Context) {
 	for {
 		if cc.Config().Clickhouse.Enable {
-			endTime := time.Now().Unix()
-			// 更新过去10分钟的数据
-			startTime := endTime - 60*10
+			// todo: 确认没有处理成功的需要把数据塞回Redis
+			endTime := time.Now().Unix() - 60*10
+			// 从过去的10分钟开始算，开始更新之前30分钟的数据
+			startTime := endTime - 60*30
 			res, err := redis.Strings(gg.RedisConnPool.Get().Do("ZRANGE", gg.HoneypotEventRedisKey, startTime, endTime))
 			if err != nil {
 				log.Errorf("get redis events failed %v", err)
