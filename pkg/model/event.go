@@ -26,3 +26,10 @@ func (p *HoneypotEvent) PK() string {
 type HoneypotEventRequest struct {
 	Events []HoneypotEvent
 }
+
+// SystemEvent 系统事件
+type SystemEvent struct {
+	ID    string  `json:"id"`
+	Type  string  `json:"type"`
+	Value float64 `json:"value"`
+}

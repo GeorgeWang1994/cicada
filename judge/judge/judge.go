@@ -13,13 +13,13 @@ import (
 /**
 
 需求：
-1. 过去一段时间内都不允许触发告警（利用redis进行存储，利用过期时间）
-2. 某个特定的事件都不允许触发告警（同上）
-3. 支持自定义处理告警事件
+1. 在一段时间内都不允许触发告警（利用redis进行存储，利用过期时间）
+2. 某个特定的事件都不允许触发告警（同上,可以根据事件的各个字段来决定，比如类型、风险级别等等）
+3. 支持自定义处理告警事件（支持自己处理逻辑）
 4. 达到某个特定的数字才触发告警（直接判断数据即可）
-5. 持续一段时间达到某个特定的数字才触发告警（利用redis的zset数据结构存储，然后利用zrange查询）
+5. 持续一段时间达到某个特定的数字才触发告警（利用redis的zset数据结构存储，然后利用zrange查询 ？）
 
-额外
+额外（通常来说，如果数据量比较大的，一般都是根据统计时间段内的数据，数据量比较小的情况下才会考虑到事件的个数）
 1. 只要超过最近n次数据的平均值才触发告警（利用redis的list数据结构存储，然后利用lrange查询出来后计算平均值）
 2. 只要超过最近n次数据的最大值才触发告警（利用redis的list数据结构存储，然后利用lrange查询出来后计算最大值）
 3. 只要低于最近n次数据的最小值才触发告警（利用redis的list数据结构存储，然后利用lrange查询出来后计算最小值）
@@ -30,18 +30,17 @@ import (
 
 */
 
-func Judge(e *model.HoneypotEvent) error {
+func Judge(e interface{}) error {
 	strategies := gg.AlarmStrategy.Get()
 	if len(strategies) < 0 {
 		return errors.New("not exists strategies")
 	}
 
 	for _, s := range strategies {
-		err, trigger := judgeEventWithStrategy(s, e)
-		if err != nil {
-			log.Errorf("judge event %d with stragegy %s failed", s.ID, e.ID)
+		if !s.Enable {
 			continue
 		}
+		trigger := judgeEventWithStrategy(s, e)
 		if trigger {
 			if err := sendEvent(e); err != nil {
 				return err
@@ -53,18 +52,24 @@ func Judge(e *model.HoneypotEvent) error {
 }
 
 // 根据策略判断事件是否触发告警
-func judgeEventWithStrategy(strategy model.AlarmStrategy, event *model.HoneypotEvent) (error, bool) {
-	fn, err := ParseFunc(strategy)
-	if err != nil {
-		return err, false
+func judgeEventWithStrategy(strategy model.AlarmStrategy, event interface{}) bool {
+	var isTriggered bool
+	for _, fn := range Functions {
+		err := fn.BeforeCompute()
+		if err != nil {
+			log.Errorf("before compute fn %s with strategy %d failed", fn.Name(), strategy.ID)
+		}
+		trigger := fn.Compute(strategy, event)
+		isTriggered = trigger && isTriggered
+		err = fn.AfterCompute()
+		if err != nil {
+			log.Errorf("after compute fn %s with strategy %d failed", fn.Name(), strategy.ID)
+		}
 	}
-
-	// todo: 确认如何满足现有的功能
-	isTriggered := fn.Compute(nil, "all", 100)
-	return nil, isTriggered
+	return isTriggered
 }
 
-func sendEvent(event *model.HoneypotEvent) error {
+func sendEvent(event interface{}) error {
 	bs, err := json.Marshal(event)
 	if err != nil {
 		log.Printf("json marshal event %v fail: %v", event, err)

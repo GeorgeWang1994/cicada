@@ -1,14 +1,13 @@
 package judge
 
 import (
-	"cicada/judge/judge/function"
 	"cicada/pkg/model"
 )
 
 type Function interface {
 	Name() (name string)
 	BeforeCompute() error
-	Compute(rangeValues []int, operator string, rightValue float64) (isTriggered bool)
+	Compute(strategy model.AlarmStrategy, event interface{}) (isTriggered bool)
 	AfterCompute() error
 }
 
@@ -21,9 +20,4 @@ func GetFunc(name string) Function {
 		}
 	}
 	return nil
-}
-
-// ParseFunc todo: 完善函数解析
-func ParseFunc(strategy model.AlarmStrategy) (Function, error) {
-	return function.AllFunction{}, nil
 }
