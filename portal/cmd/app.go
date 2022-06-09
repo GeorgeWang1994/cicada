@@ -2,7 +2,6 @@ package main
 
 import (
 	"cicada/portal/cc"
-	"cicada/portal/cron"
 	"cicada/portal/rpc"
 	"context"
 	"flag"
@@ -19,8 +18,8 @@ func initApp() error {
 	rpc.Start(ctx)
 
 	// 定期同步数据
-	go cron.SyncAlarmStrategy()
-	go cron.SyncSubscribeStrategy()
+	//go cron.SyncAlarmStrategy()
+	//go cron.SyncSubscribeStrategy()
 
 	return nil
 }

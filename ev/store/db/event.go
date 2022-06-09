@@ -21,7 +21,7 @@ func BatchInsertHoneypotEvent(ctx context.Context, events []*model.HoneypotEvent
 	for _, e := range events {
 		err := batch.Append(
 			e.ID, e.Proto, e.Honeypot, e.Agent, e.StartTime, e.EndTime, e.SrcIp,
-			e.SrcPort, e.SrcMac, e.DestIp, e.DestPort, e.EventTypes, e.RiskLevel,
+			e.SrcPort, e.DestIp, e.DestPort, e.RiskLevel,
 		)
 		if err != nil {
 			return err
@@ -40,9 +40,9 @@ func AsyncBatchInsertHoneypotEvent(ctx context.Context, events []*model.Honeypot
 		err := gg.ClickhouseClient.AsyncInsert(
 			ctx,
 			fmt.Sprintf("INSERT INTO honeypot_event VALUES "+
-				"(%s, %s, %s, %s, %d, %d, %s, %d, %s, %s, %d, %s, %d)",
+				"(%s, %s, %s, %s, %d, %d, %s, %d, %s, %d, %d)",
 				e.ID, e.Proto, e.Honeypot, e.Agent, e.StartTime.Second(), e.EndTime.Second(),
-				e.SrcIp, e.SrcPort, e.SrcMac, e.DestIp, e.DestPort, e.EventTypes, e.RiskLevel,
+				e.SrcIp, e.SrcPort, e.DestIp, e.DestPort, e.RiskLevel,
 			),
 			wait)
 		if err != nil {

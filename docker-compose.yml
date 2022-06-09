@@ -14,9 +14,9 @@ services:
   redis-webui:
     container_name: redis-webui
     build:
-      context: ./docker/redis.env
+      context: ./docker/redis-webui
     env_file:
-      - env/redis-webui.env
+      - ./env/redis.env
     environment:
       - ADMIN_USER=${REDIS_WEBUI_USERNAME}
       - ADMIN_PASS=${REDIS_WEBUI_PASSWORD}
@@ -34,7 +34,7 @@ services:
     build:
       context: ./docker/mysql
     env_file:
-      - env/mysql.env
+      - ./env/mysql.env
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
@@ -52,7 +52,7 @@ services:
     build:
       context: ./docker/slave
     env_file:
-      - env/mysql.env
+      - ./env/mysql.env
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
@@ -92,6 +92,7 @@ services:
       - backend
   kafka-manager:
     build: ./docker/kafka-manager
+    container_name: kafka-manager
     ports:
       - "9111:9000"
     environment:
@@ -101,21 +102,17 @@ services:
       - frontend
       - backend
   clickhouse:
-    image: yandex/clickhouse-server
-    container_name: clickhouse-server
-    restart: always
+    build: ./docker/ck
+    container_name: ck
     env_file:
-      - env/ck.env
+      - ./env/ck.env
     ulimits:
       nofile:
         soft: "262144"
         hard: "262144"
     ports:
-      - 8123:8123
-      - 9000:9000
-    volumes:
-      - ${DATA_PATH}/clickhouse/config.xml:/etc/clickhouse-server/config.xml
-      - ${DATA_PATH}/clickhouse/users.xml:/etc/clickhouse-server/users.xml
+      - "8123:8123"
+      - "9000:9000"
 networks:
   frontend:
     driver: ${NETWORKS_DRIVER}

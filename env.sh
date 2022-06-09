@@ -1,0 +1,26 @@
+#!/bin/bash
+export DATA_PATH=../data
+# ----mysql----
+export DATA_PATH=../data
+export NETWORKS_DRIVER=bridge
+export TIMEZONE=UTC+8
+export MYSQL_DATABASE=cicada
+export MYSQL_USER=cicada
+export MYSQL_PASSWORD=cicada
+export MYSQL_ROOT_PASSWORD=cicada
+export MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
+export MYSQL_LOG_PATH=../logs/mysql
+export MYSQL57_PORT=3356
+export MYSQL_SLAVE_PORT=33061
+# ----redis----
+export DATA_PATH=../data
+export NETWORKS_DRIVER=bridge
+export TIMEZONE=UTC+8
+export REDIS_LOG_PATH=../logs/redis
+export REDIS_PORT=6379
+export REDIS_WEBUI_USERNAME=cicada
+export REDIS_WEBUI_PASSWORD=cicada
+export REDIS_WEBUI_CONNECT_HOST=redis
+export REDIS_WEBUI_CONNECT_PORT=6379
+export REDIS_WEBUI_CONNECT_AUTH=cicada
+export REDIS_WEBUI_PORT=16379
