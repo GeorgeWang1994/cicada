@@ -1,8 +1,8 @@
 package queue
 
 import (
-	"cicada/ev/sender/node"
-	"cicada/pkg/model"
+	"github.com/GeorgeWang1994/cicada/ev/sender/node"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 	log "github.com/sirupsen/logrus"
 	nlist "github.com/toolkits/container/list"
 )

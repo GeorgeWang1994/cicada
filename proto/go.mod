@@ -1,4 +1,4 @@
-module cicada/proto
+module github.com/GeorgeWang1994/cicada/proto
 
 go 1.17
 

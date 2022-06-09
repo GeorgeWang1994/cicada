@@ -1,13 +1,13 @@
 package main
 
 import (
-	"cicada/ev/cc"
-	"cicada/ev/cron"
-	"cicada/ev/gg"
-	"cicada/ev/rpc"
-	"cicada/ev/sender"
 	"context"
 	"flag"
+	"github.com/GeorgeWang1994/cicada/ev/cc"
+	"github.com/GeorgeWang1994/cicada/ev/cron"
+	"github.com/GeorgeWang1994/cicada/ev/gg"
+	"github.com/GeorgeWang1994/cicada/ev/rpc"
+	"github.com/GeorgeWang1994/cicada/ev/sender"
 )
 
 func initApp() error {

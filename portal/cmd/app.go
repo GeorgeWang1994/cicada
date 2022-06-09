@@ -1,10 +1,10 @@
 package main
 
 import (
-	"cicada/portal/cc"
-	"cicada/portal/rpc"
 	"context"
 	"flag"
+	"github.com/GeorgeWang1994/cicada/portal/cc"
+	"github.com/GeorgeWang1994/cicada/portal/rpc"
 )
 
 func initApp() error {

@@ -1,7 +1,7 @@
 package node
 
 import (
-	"cicada/ev/cc"
+	"github.com/GeorgeWang1994/cicada/ev/cc"
 	"github.com/toolkits/consistent/rings"
 	"sort"
 )

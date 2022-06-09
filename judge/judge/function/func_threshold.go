@@ -1,8 +1,8 @@
 package function
 
 import (
-	"cicada/judge/judge"
-	"cicada/pkg/model"
+	"github.com/GeorgeWang1994/cicada/judge/judge"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 )
 
 type ThresholdFunction struct {

@@ -1,4 +1,4 @@
-module cicada/pkg
+module github.com/GeorgeWang1994/cicada/pkg
 
 go 1.17
 

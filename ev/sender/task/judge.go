@@ -1,10 +1,10 @@
 package task
 
 import (
-	"cicada/ev/cc"
-	"cicada/ev/sender/pool"
-	"cicada/pkg/model"
 	"context"
+	"github.com/GeorgeWang1994/cicada/ev/cc"
+	"github.com/GeorgeWang1994/cicada/ev/sender/pool"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 	"github.com/toolkits/concurrent/semaphore"
 	"github.com/toolkits/container/list"
 	"time"

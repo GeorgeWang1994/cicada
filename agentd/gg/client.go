@@ -1,8 +1,8 @@
 package gg
 
 import (
-	"cicada/agentd/cc"
-	"cicada/agentd/rpc"
+	"github.com/GeorgeWang1994/cicada/agentd/cc"
+	"github.com/GeorgeWang1994/cicada/agentd/rpc"
 	"time"
 )
 

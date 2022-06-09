@@ -1,9 +1,9 @@
 package task
 
 import (
-	"cicada/ev/cc"
-	"cicada/ev/sender/queue"
 	"context"
+	"github.com/GeorgeWang1994/cicada/ev/cc"
+	"github.com/GeorgeWang1994/cicada/ev/sender/queue"
 )
 
 func InitSendTasks(ctx context.Context) {

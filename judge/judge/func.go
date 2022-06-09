@@ -1,7 +1,7 @@
 package judge
 
 import (
-	"cicada/pkg/model"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 )
 
 type Function interface {

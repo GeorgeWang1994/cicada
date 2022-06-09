@@ -1,9 +1,9 @@
 package msg
 
 import (
-	"cicada/alarm/cc"
-	"cicada/pkg/model"
 	"fmt"
+	"github.com/GeorgeWang1994/cicada/alarm/cc"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 	log "github.com/sirupsen/logrus"
 	"github.com/toolkits/net/httplib"
 	"strings"

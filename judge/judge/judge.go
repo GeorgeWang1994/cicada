@@ -1,12 +1,12 @@
 package judge
 
 import (
-	"cicada/judge/cc"
-	"cicada/judge/gg"
-	"cicada/pkg/model"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/GeorgeWang1994/cicada/judge/cc"
+	"github.com/GeorgeWang1994/cicada/judge/gg"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 	log "github.com/sirupsen/logrus"
 )
 

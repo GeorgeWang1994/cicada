@@ -1,9 +1,9 @@
 package main
 
 import (
-	"cicada/agentd/cc"
-	"cicada/agentd/cron"
-	"cicada/agentd/gg"
+	"github.com/GeorgeWang1994/cicada/agentd/cc"
+	"github.com/GeorgeWang1994/cicada/agentd/cron"
+	"github.com/GeorgeWang1994/cicada/agentd/gg"
 )
 
 func initApp() error {

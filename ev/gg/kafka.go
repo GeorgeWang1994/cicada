@@ -1,7 +1,7 @@
 package gg
 
 import (
-	"cicada/ev/cc"
+	"github.com/GeorgeWang1994/cicada/ev/cc"
 	"github.com/segmentio/kafka-go"
 	"net"
 	"time"

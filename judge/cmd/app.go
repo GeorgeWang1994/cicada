@@ -1,12 +1,12 @@
 package main
 
 import (
-	"cicada/judge/cc"
-	"cicada/judge/cron"
-	"cicada/judge/gg"
-	"cicada/judge/rpc"
 	"context"
 	"flag"
+	"github.com/GeorgeWang1994/cicada/judge/cc"
+	"github.com/GeorgeWang1994/cicada/judge/cron"
+	"github.com/GeorgeWang1994/cicada/judge/gg"
+	"github.com/GeorgeWang1994/cicada/judge/rpc"
 )
 
 func initApp() error {

@@ -1,8 +1,8 @@
 package gg
 
 import (
-	"cicada/judge/cc"
 	"errors"
+	"github.com/GeorgeWang1994/cicada/judge/cc"
 	"github.com/hashicorp/net-rpc-msgpackrpc"
 	log "github.com/sirupsen/logrus"
 	"math"

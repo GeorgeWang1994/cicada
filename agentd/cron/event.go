@@ -1,9 +1,9 @@
 package cron
 
 import (
-	"cicada/agentd/cc"
-	"cicada/agentd/gg"
-	"cicada/pkg/model"
+	"github.com/GeorgeWang1994/cicada/agentd/cc"
+	"github.com/GeorgeWang1994/cicada/agentd/gg"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 	"github.com/google/uuid"
 	"log"
 	"time"

@@ -1,7 +1,7 @@
 package gg
 
 import (
-	"cicada/alarm/cc"
+	"github.com/GeorgeWang1994/cicada/alarm/cc"
 	"log"
 	"strings"
 	"time"

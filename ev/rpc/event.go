@@ -1,15 +1,15 @@
 package rpc
 
 import (
-	"cicada/ev/cc"
-	"cicada/ev/gg"
-	"cicada/ev/sender/queue"
-	"cicada/ev/store/db"
-	"cicada/pkg/model"
-	pb "cicada/proto/api/ev"
 	"context"
 	"errors"
 	"fmt"
+	"github.com/GeorgeWang1994/cicada/ev/cc"
+	"github.com/GeorgeWang1994/cicada/ev/gg"
+	"github.com/GeorgeWang1994/cicada/ev/sender/queue"
+	"github.com/GeorgeWang1994/cicada/ev/store/db"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
+	pb "github.com/GeorgeWang1994/cicada/proto/api/ev"
 	"github.com/garyburd/redigo/redis"
 	"github.com/segmentio/kafka-go"
 	log "github.com/sirupsen/logrus"

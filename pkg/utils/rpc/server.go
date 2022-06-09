@@ -1,8 +1,8 @@
 package rpc
 
 import (
-	"cicada/pkg/utils/rpc/middleware"
 	"context"
+	"github.com/GeorgeWang1994/cicada/pkg/utils/rpc/middleware"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"

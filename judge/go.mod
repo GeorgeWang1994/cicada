@@ -1,10 +1,8 @@
-module cicada/judge
+module github.com/GeorgeWang1994/cicada/judge
 
 go 1.17
 
 require (
-	cicada/pkg v0.0.1
-	cicada/proto v0.0.1
 	github.com/garyburd/redigo v1.6.3
 	github.com/hashicorp/net-rpc-msgpackrpc v0.0.0-20151116020338-a14192a58a69
 	github.com/sirupsen/logrus v1.8.1
@@ -42,7 +40,3 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
-
-replace cicada/pkg v0.0.1 => ../pkg
-
-replace cicada/proto v0.0.1 => ../proto

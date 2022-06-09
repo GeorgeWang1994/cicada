@@ -1,9 +1,9 @@
 package gg
 
 import (
-	"cicada/ev/cc"
-	"cicada/pkg/model"
 	"context"
+	"github.com/GeorgeWang1994/cicada/ev/cc"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 	log "github.com/sirupsen/logrus"
 	"github.com/vmihailenco/msgpack"
 	"time"

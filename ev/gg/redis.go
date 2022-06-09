@@ -1,7 +1,7 @@
 package gg
 
 import (
-	"cicada/ev/cc"
+	"github.com/GeorgeWang1994/cicada/ev/cc"
 	"github.com/garyburd/redigo/redis"
 	log "github.com/sirupsen/logrus"
 	"strings"

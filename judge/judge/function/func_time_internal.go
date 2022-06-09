@@ -1,9 +1,9 @@
 package function
 
 import (
-	"cicada/judge/gg"
-	"cicada/judge/judge"
-	"cicada/pkg/model"
+	"github.com/GeorgeWang1994/cicada/judge/gg"
+	"github.com/GeorgeWang1994/cicada/judge/judge"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 	"github.com/garyburd/redigo/redis"
 )
 

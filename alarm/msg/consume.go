@@ -1,10 +1,10 @@
 package msg
 
 import (
-	"cicada/alarm/cc"
-	"cicada/alarm/gg"
-	"cicada/pkg/model"
 	"encoding/json"
+	"github.com/GeorgeWang1994/cicada/alarm/cc"
+	"github.com/GeorgeWang1994/cicada/alarm/gg"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 	"github.com/garyburd/redigo/redis"
 	log "github.com/sirupsen/logrus"
 	"time"

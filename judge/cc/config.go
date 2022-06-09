@@ -1,9 +1,9 @@
 package cc
 
 import (
-	"cicada/pkg/utils/file"
 	"encoding/json"
 	"errors"
+	"github.com/GeorgeWang1994/cicada/pkg/utils/file"
 	log "github.com/sirupsen/logrus"
 	"sync"
 )

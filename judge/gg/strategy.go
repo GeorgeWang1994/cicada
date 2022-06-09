@@ -1,7 +1,7 @@
 package gg
 
 import (
-	"cicada/pkg/model"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 	"sync"
 )
 

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"cicada/alarm/cc"
-	"cicada/alarm/gg"
-	"cicada/alarm/msg"
 	"flag"
+	"github.com/GeorgeWang1994/cicada/alarm/cc"
+	"github.com/GeorgeWang1994/cicada/alarm/gg"
+	"github.com/GeorgeWang1994/cicada/alarm/msg"
 )
 
 func initApp() error {

@@ -1,10 +1,10 @@
 package db
 
 import (
-	"cicada/ev/gg"
-	"cicada/pkg/model"
 	"context"
 	"fmt"
+	"github.com/GeorgeWang1994/cicada/ev/gg"
+	"github.com/GeorgeWang1994/cicada/pkg/model"
 )
 
 type QueryHoneypotEventParam struct {

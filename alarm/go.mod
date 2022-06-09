@@ -1,4 +1,4 @@
-module cicada/alarm
+module github.com/GeorgeWang1994/cicada/alarm
 
 go 1.17
 
@@ -18,14 +18,9 @@ require (
 )
 
 require (
-	cicada/pkg v0.0.1
-	cicada/proto v0.0.1
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-msgpack v0.5.3 // indirect
 	github.com/hashicorp/go-multierror v1.1.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 )
-
-replace cicada/pkg v0.0.1 => ../pkg
-replace cicada/proto v0.0.1 => ../proto

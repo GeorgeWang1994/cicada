@@ -1,10 +1,10 @@
 package rpc
 
 import (
-	"cicada/judge/cc"
-	"cicada/pkg/utils/rpc"
-	pb "cicada/proto/api/judge"
 	"context"
+	"github.com/GeorgeWang1994/cicada/judge/cc"
+	"github.com/GeorgeWang1994/cicada/pkg/utils/rpc"
+	pb "github.com/GeorgeWang1994/cicada/proto/api/judge"
 	log "github.com/sirupsen/logrus"
 	"net"
 )

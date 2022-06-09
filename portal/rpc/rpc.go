@@ -1,9 +1,9 @@
 package rpc
 
 import (
-	"cicada/pkg/utils/rpc"
-	"cicada/portal/cc"
 	"context"
+	"github.com/GeorgeWang1994/cicada/pkg/utils/rpc"
+	"github.com/GeorgeWang1994/cicada/portal/cc"
 	log "github.com/sirupsen/logrus"
 	"net"
 )

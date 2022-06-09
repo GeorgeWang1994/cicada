@@ -1,11 +1,11 @@
 package gg
 
 import (
-	"cicada/ev/cc"
 	"context"
 	"fmt"
 	"github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/ClickHouse/clickhouse-go/v2/lib/compress"
+	"github.com/GeorgeWang1994/cicada/ev/cc"
 	log "github.com/sirupsen/logrus"
 	"time"
 )

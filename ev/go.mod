@@ -1,10 +1,8 @@
-module cicada/ev
+module github.com/GeorgeWang1994/cicada/ev
 
 go 1.17
 
 require (
-	cicada/pkg v0.0.1
-	cicada/proto v0.0.1
 	github.com/ClickHouse/clickhouse-go/v2 v2.0.12
 	github.com/hashicorp/net-rpc-msgpackrpc v0.0.0-20151116020338-a14192a58a69
 	github.com/segmentio/kafka-go v0.4.29
@@ -59,7 +57,3 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
-
-replace cicada/pkg v0.0.1 => ../pkg
-
-replace cicada/proto v0.0.1 => ../proto

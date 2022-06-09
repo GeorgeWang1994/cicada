@@ -1,10 +1,10 @@
 package sender
 
 import (
-	"cicada/ev/sender/node"
-	"cicada/ev/sender/pool"
-	"cicada/ev/sender/task"
 	"context"
+	"github.com/GeorgeWang1994/cicada/ev/sender/node"
+	"github.com/GeorgeWang1994/cicada/ev/sender/pool"
+	"github.com/GeorgeWang1994/cicada/ev/sender/task"
 )
 
 func Start(ctx context.Context) {

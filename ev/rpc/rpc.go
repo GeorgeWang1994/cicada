@@ -1,10 +1,10 @@
 package rpc
 
 import (
-	"cicada/ev/cc"
-	"cicada/pkg/utils/rpc"
-	pb "cicada/proto/api/ev"
 	"context"
+	"github.com/GeorgeWang1994/cicada/ev/cc"
+	"github.com/GeorgeWang1994/cicada/pkg/utils/rpc"
+	pb "github.com/GeorgeWang1994/cicada/proto/api/ev"
 	log "github.com/sirupsen/logrus"
 	"net"
 )
