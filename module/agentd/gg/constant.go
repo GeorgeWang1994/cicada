@@ -2,5 +2,5 @@ package gg
 
 const (
 	DefaultWorker   = 10
-	DefaultPerCount = 120
+	DefaultPerCount = 12000
 )

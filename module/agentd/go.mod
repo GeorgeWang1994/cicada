@@ -3,6 +3,7 @@ module github.com/GeorgeWang1994/cicada/module/agentd
 go 1.17
 
 require (
+	github.com/GeorgeWang1994/cicada/module/pkg v0.0.0-00010101000000-000000000000
 	github.com/google/uuid v1.3.0
 	github.com/hashicorp/net-rpc-msgpackrpc v0.0.0-20151116020338-a14192a58a69
 	github.com/spf13/cobra v1.3.0

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cicada-portal-service
+  labels:
+    app: cicada-portal
+spec:
+  type: NodePort
+  selector:
+    app: cicada-portal
+  ports:
+    - protocol: TCP
+      nodePort: 32080
+      port: 80
+      targetPort: 8080

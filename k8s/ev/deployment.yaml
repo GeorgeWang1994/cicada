@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cicada-ev-deployment
+  labels:
+    app: cicada-ev
+spec:
+  selector:
+    matchLabels:
+      app: cicada-ev
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cicada-ev
+    spec:
+      containers:
+        - image: cicada-ev
+          name: cicada-ev-container
+          imagePullPolicy: Never
+          env:
+            # 环境变量
+            - name: MYSQL_USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: cicada-secret
+                  key: MYSQL_USER_NAME
+            - name: MYSQL_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cicada-secret
+                  key: MYSQL_USER_PASSWORD
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: cicada-config
+                  key: MYSQL_HOST
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: cicada-config
+                  key: MYSQL_PORT
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: cicada-config
+                  key: MYSQL_DATABASE
+          ports:
+            - containerPort: 80
+              name: portname
+          volumeMounts:
+            - name: cicada-ev-persistentstorage
+              mountPath: /app/logs
+      volumes:
+        - name: cicada-ev-persistentstorage
+          persistentVolumeClaim:
+            claimName: cicada-ev-pvclaim

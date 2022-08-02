@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-// SyncAlarmStrategy 从数据库定时同步策略
+// SyncAlarmStrategy 从数据库定时同步告警策略
 func SyncAlarmStrategy() {
 	ticker := time.NewTicker(time.Duration(cc.Config().Portal.SyncInterval))
 	for {

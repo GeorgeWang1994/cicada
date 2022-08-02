@@ -14,15 +14,15 @@ ENV VERSION=0.0.1
 WORKDIR ${GOPATH}/src/cicada/module/${PRO}
 
 RUN apk add --no-cache ca-certificates bash git && \
-    GO111MODULE=on go build -ldflags "-X main.BinaryName=$@ -X main.GitCommit=`git rev-parse --short HEAD` -X main.Version=$(VERSION)" \
+    go mod tidy && GO111MODULE=on go build -ldflags "-X main.BinaryName=$@ -X main.GitCommit=`git rev-parse --short HEAD` -X main.Version=$(VERSION)" \
     		-o /tmp/cicada-${PRO} ./cmd
-
 
 FROM alpine:latest
 
 ARG PRO
 COPY --from=build /tmp/cicada-${PRO} /app/cicada-${PRO}
+COPY ./module/${PRO}/config.json /app/config.json
 
 WORKDIR /app/
 
-CMD ["cicada-${PRO}", "daemon"]
+CMD ["cicada-${PRO}", "daemon", "-c", "/app/config.json"]

@@ -7,10 +7,13 @@ import (
 	"github.com/GeorgeWang1994/cicada/module/judge/cron"
 	"github.com/GeorgeWang1994/cicada/module/judge/gg"
 	"github.com/GeorgeWang1994/cicada/module/judge/rpc"
+	"log"
 )
 
 func initApp() error {
-	cfg := flag.String("c", "cfg.json", "configuration file")
+	cfg := flag.String("c", "config.json", "configuration file")
+	flag.Parse()
+	log.Println(*cfg)
 	err := cc.ParseConfig(*cfg)
 	if err != nil {
 		return err

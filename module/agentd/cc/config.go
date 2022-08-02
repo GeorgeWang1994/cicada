@@ -29,7 +29,7 @@ func ParseConfig(cfg string) error {
 	}
 
 	if !file.IsExist(cfg) {
-		return errors.New("is not existent. maybe you need `mv cfg.example.json cfg.json`")
+		return errors.New("is not existent. maybe you need `mv cfg.example.json config.json`")
 	}
 
 	configContent, err := file.FileContent(cfg)

@@ -11,7 +11,8 @@ import (
 )
 
 func initApp() error {
-	cfg := flag.String("c", "cfg.json", "configuration file")
+	cfg := flag.String("c", "config.json", "configuration file")
+	flag.Parse()
 	err := cc.ParseConfig(*cfg)
 	if err != nil {
 		return err
@@ -28,12 +29,12 @@ func initApp() error {
 		gg.InitKafka()
 	}
 
-	if cc.Config().Clickhouse.Enable {
+	if cc.Config().Clickhouse.Enabled {
 		gg.InitClickhouseClient(ctx)
 		cron.Sync2Clickhouse(ctx)
 	}
 
-	if cc.Config().EventWorker.Enable {
+	if cc.Config().EventWorker.Enabled {
 		gg.InitWorker(ctx)
 	}
 

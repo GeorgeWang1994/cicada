@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cicada-mysql-deployment
+  labels:
+    app: cicada-mysql
+spec:
+  selector:
+    matchLabels:
+      app: cicada-mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cicada-mysql
+    spec:
+      containers:
+        - image: mysql:5.7
+          name: cicada-mysql-container
+          imagePullPolicy: Never
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cicada-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: cicada-secret
+                  key: MYSQL_USER_NAME
+            - name: MYSQL_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cicada-secret
+                  key: MYSQL_USER_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: cicada-config
+                  key: MYSQL_DATABASE
+          args: [ "--default-authentication-plugin=mysql_native_password" ]
+          ports:
+            - containerPort: 3306
+              name: portname
+          volumeMounts:
+            - name: cicada-mysql-persistentstorage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: cicada-mysql-persistentstorage
+          persistentVolumeClaim:
+            claimName: cicada-mysql-pvclaim

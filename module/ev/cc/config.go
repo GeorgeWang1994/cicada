@@ -15,7 +15,7 @@ type RpcConfig struct {
 }
 
 type ClickhouseConfig struct {
-	Enable      bool   `json:"enable"`
+	Enabled     bool   `json:"enabled"`
 	Addr        string `json:"addr"`
 	Database    string `json:"database"`
 	Username    string `json:"username"`
@@ -31,7 +31,7 @@ type JudgeConfig struct {
 	ReadTimeout  int               `json:"readTimeout"`
 	WriteTimeout int               `json:"writeTimeout"`
 	InitCap      int               `json:"initCap"`
-	MaxCap       int               `json:"MaxCap"`
+	MaxCap       int               `json:"maxCap"`
 	Replicas     int               `json:"replicas"`
 	Cluster      map[string]string `json:"cluster"`
 }
@@ -57,7 +57,7 @@ type RedisConfig struct {
 }
 
 type EventWorkerConfig struct {
-	Enable  bool `json:"enable"`
+	Enabled bool `json:"enabled"`
 	DataCap int  `json:"dataCap"`
 	InitCap int  `json:"initCap"`
 	MaxCap  int  `json:"maxCap"`
@@ -70,7 +70,7 @@ type GlobalConfig struct {
 	Kafka       *KafkaConfig       `json:"kafka"`
 	Redis       *RedisConfig       `json:"redis"`
 	Clickhouse  *ClickhouseConfig  `json:"clickhouse"`
-	EventWorker *EventWorkerConfig `json:"eventWorker"`
+	EventWorker *EventWorkerConfig `json:"worker"`
 }
 
 var (
@@ -84,7 +84,7 @@ func ParseConfig(cfg string) error {
 	}
 
 	if !file.IsExist(cfg) {
-		return errors.New("is not existent. maybe you need `mv cfg.example.json cfg.json`")
+		return errors.New("is not existent. maybe you need `mv cfg.example.json config.json`")
 	}
 
 	configContent, err := file.FileContent(cfg)

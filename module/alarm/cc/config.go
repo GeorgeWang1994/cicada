@@ -23,7 +23,7 @@ type RedisConfig struct {
 	ConnTimeout  int      `json:"connTimeout"`
 	ReadTimeout  int      `json:"readTimeout"`
 	WriteTimeout int      `json:"writeTimeout"`
-	Queues       []string `json:"Queues"`
+	Queues       []string `json:"queues"`
 }
 
 type GlobalConfig struct {
@@ -44,7 +44,7 @@ func ParseConfig(cfg string) error {
 	}
 
 	if !file.IsExist(cfg) {
-		return errors.New("is not existent. maybe you need `mv cfg.example.json cfg.json`")
+		return errors.New("is not existent. maybe you need `mv cfg.example.json config.json`")
 	}
 
 	configContent, err := file.FileContent(cfg)

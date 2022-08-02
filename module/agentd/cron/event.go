@@ -13,29 +13,32 @@ import (
 func SendEvent() {
 	var err error
 	duration := time.Duration(cc.Config().Interval) * time.Second
-
+	ticker := time.NewTicker(duration)
 	for {
-		time.Sleep(duration)
+		select {
+		case <-ticker.C:
+			events := make([]model.HoneypotEvent, 0)
+			perCnt := cc.Config().PerCount
+			if perCnt == 0 {
+				perCnt = gg.DefaultPerCount
+			}
+			for i := 0; i < perCnt; i++ {
+				events = append(events, mockEventInfo())
+			}
+			req := model.HoneypotEventRequest{
+				Events: events,
+			}
 
-		events := make([]model.HoneypotEvent, 0)
-		perCnt := cc.Config().PerCount
-		if perCnt == 0 {
-			perCnt = gg.DefaultPerCount
-		}
-		for i := 0; i < perCnt; i++ {
-			events = append(events, mockEventInfo())
-		}
-		req := model.HoneypotEventRequest{
-			Events: events,
-		}
-
-		var resp model.RpcResponse
-		err = gg.EventRpcClient().Call("HoneypotEvent.ReceiveEvent", req, &resp)
-		if err != nil {
-			log.Println("call HoneypotEvent.RecvEvent fail:", err)
+			var resp model.RpcResponse
+			err = gg.EventRpcClient().Call("HoneypotEvent.ReceiveEvent", req, &resp)
+			if err != nil {
+				log.Println("call HoneypotEvent.RecvEvent fail:", err)
+				continue
+			}
+			log.Println("send event success")
+		default:
 			continue
 		}
-		log.Println("send event success")
 	}
 }
 

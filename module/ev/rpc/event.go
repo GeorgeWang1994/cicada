@@ -35,6 +35,7 @@ func (t *Event) ReceiveEvent(ctx context.Context, request *pb.ReceiveEventReques
 	if len(request.Events) <= 0 {
 		return &pb.Response{}, errors.New("empty events")
 	}
+	// 如果没有kafka，启动多个channel进行接收
 	if cc.Config().Kafka.Enabled {
 		var msgs []kafka.Message
 		for _, e := range request.Events {

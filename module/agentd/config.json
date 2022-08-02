@@ -1,0 +1,9 @@
+{
+  "id": "4c499d16-6cc8-4887-9c87-64c38ca38d96",
+  "debug": true,
+  "rpc_addr": "",
+  "timeout": 60,
+  "worker": 10,
+  "per_count": 100,
+  "interval": 60
+}

@@ -1,0 +1,15 @@
+{
+	"rpc": {
+		"rpc_addr": "%%TRANSFER_RPC%%",
+		"timeout": 10
+	},
+	"redis": {
+		"enabled": true,
+		"dsn": "",
+		"maxIdle": 200,
+		"connTimeout": 1000,
+		"readTimeout": 5000,
+		"writeTimeout": 5000
+	},
+	"debug": true
+}

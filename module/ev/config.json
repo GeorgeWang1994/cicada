@@ -1,0 +1,57 @@
+{
+    "debug": true,
+    "minStep": 30,
+    "rpc": {
+        "rpc_addr": "%%TRANSFER_RPC%%",
+        "timeout": 10
+    },
+    "judge": {
+        "enabled": true,
+        "batch": 200,
+        "dialTimeout": 1000,
+        "connTimeout": 1000,
+        "readTimeout": 5000,
+        "writeTimeout": 5000,
+        "initCap": 10,
+        "maxCap": 32,
+        "replicas": 500,
+        "cluster": {
+            "judge-00": "%%JUDGE_RPC%%"
+        }
+    },
+    "redis": {
+        "enabled": true,
+        "dsn": "",
+        "maxIdle": 200,
+        "connTimeout": 1000,
+        "readTimeout": 5000,
+        "writeTimeout": 5000
+    },
+    "kafka": {
+        "enabled": true,
+        "broker": {
+            "queue": "queue"
+        },
+        "topic": "topic",
+        "partition": 1000,
+        "batchSize": 5000,
+        "timeout": 32,
+        "maxIdle": 32,
+        "batchDelay": 500,
+        "compress": true
+    },
+    "worker": {
+        "enabled": true,
+        "dataCap": 10,
+        "initCap": 100,
+        "maxCap": 200
+    },
+    "clickhouse": {
+        "enabled": false,
+        "addr": "",
+        "database": "cicada",
+        "username": "test",
+        "password": "test",
+        "connTimeout": 1000
+    }
+}

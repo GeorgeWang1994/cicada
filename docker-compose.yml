@@ -10,7 +10,7 @@ services:
     ports:
       - "${REDIS_PORT}:6379"
     networks:
-      backend:
+      - backend
   redis-webui:
     container_name: redis-webui
     build:
@@ -113,6 +113,22 @@ services:
     ports:
       - "8123:8123"
       - "9000:9000"
+  alarm:
+    image: alarm:latest
+    container_name: cicada-alarm
+  ev:
+    image: ev:latest
+    container_name: cicada-ev
+    ports:
+  judge:
+    image: alarm:latest
+    container_name: cicada-judge
+    ports:
+  portal:
+    image: portal:latest
+    container_name: cicada-portal
+    ports:
+
 networks:
   frontend:
     driver: ${NETWORKS_DRIVER}

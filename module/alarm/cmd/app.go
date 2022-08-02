@@ -8,7 +8,8 @@ import (
 )
 
 func initApp() error {
-	cfg := flag.String("c", "cfg.json", "configuration file")
+	cfg := flag.String("c", "config.json", "configuration file")
+	flag.Parse()
 	err := cc.ParseConfig(*cfg)
 	if err != nil {
 		return err

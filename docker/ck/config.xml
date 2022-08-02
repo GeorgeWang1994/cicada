@@ -376,7 +376,7 @@
          - move_factor              is ignored
          - keep_free_space_bytes    is ignored
          - max_data_part_size_bytes is ignored
-         - you must have exactly one volume in that policy
+         - you must have exactly one volume.yaml in that policy
     -->
     <!-- <tmp_policy>tmp</tmp_policy> -->
 

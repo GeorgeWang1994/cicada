@@ -1,0 +1,22 @@
+{
+  "debug": true,
+  "rpc": {
+    "timeout": 60,
+    "rpc_addr": "0.0.0.0:9912"
+  },
+  "redis": {
+    "dsn": "%%REDIS%%",
+    "maxIdle": 5,
+    "connTimeout": 10,
+    "readTimeout": 10,
+    "writeTimeout": 10,
+    "queues": [
+      "event:queue1",
+      "event:queue2",
+      "event:queue3"
+    ]
+  },
+  "provider": {
+    "im": "http://127.0.0.1:10086/wechat"
+  }
+}
